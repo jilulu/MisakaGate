@@ -1,12 +1,18 @@
 package com.mahoucoder.misakagate.api;
 
-import com.mahoucoder.misakagate.activities.OKHTTPClientFactory;
+import com.mahoucoder.misakagate.api.models.Anime;
+import com.mahoucoder.misakagate.api.models.ListAnimeService;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by jamesji on 28/10/2016.
@@ -16,28 +22,49 @@ public class GateAPI {
     private static final String ANIME_BASE_URL = "http://anime.2d-gate.org";
     public static final String ANIME_CACHE_URL = ANIME_BASE_URL + "/__cache.html";
 
+    private static volatile Retrofit mRetrofit;
+
+    private static volatile OkHttpClient mClient;
+
+    public static OkHttpClient getOKHTTP() {
+        if (mClient == null) {
+            synchronized (GateAPI.class) {
+                if (mClient == null) {
+                    mClient = new OkHttpClient.Builder().followRedirects(true).build();
+                }
+            }
+        }
+        return mClient;
+    }
+
+    public static Retrofit getRetrofit() {
+        if (mRetrofit == null) {
+            synchronized (GateAPI.class) {
+                if (mRetrofit == null) {
+                    GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
+                    mRetrofit = new Retrofit.Builder()
+                            .baseUrl("http://mahoucoder.com:8000/")
+                            .addConverterFactory(gsonConverterFactory)
+                            .build();
+                }
+            }
+        }
+        return mRetrofit;
+    }
+
     public static Response getAnimeListDOM() throws IOException {
-        OkHttpClient client = OKHTTPClientFactory.getClient();
+        OkHttpClient client = getOKHTTP();
         Request request = new Request.Builder().url(ANIME_CACHE_URL)
                 .header("User-Agent", "Android Application by MahouCoder")
                 .build();
         return client.newCall(request).execute();
     }
 
-//    private List<Anime> getAnimeList() throws IOException {
-//        Response response = getAnimeListDOM();
-//        Document parsedDocument = Jsoup.parse(response.body().byteStream(), "utf-8", GateAPI.ANIME_CACHE_URL);
-//        Element body = parsedDocument.body();
-//        Element animeList = body.getElementById("animeList");
-//        Elements thead = animeList.getElementsByTag("thead");
-//        Elements tbody = animeList.getElementsByTag("tbody");
-//        Elements tr = tbody.select("tr");
-//        Log.d("CachePageParsing", tr.size() + " items found in table. ");
-//        Iterator<Element> trIterator = tr.iterator();
-//        ArrayList<Anime> animeArrayList = new ArrayList<>();
-//        while (trIterator.hasNext()) {
-//            Iterator<Element> tdIterator = trIterator.next().select("td").iterator();
-//            animeArrayList.add(new Anime(tdIterator.next().))
-//        }
-//    }
+    public static void getAnimeList(Callback<List<Anime>> callback) {
+        Retrofit retrofit = getRetrofit();
+        ListAnimeService service = retrofit.create(ListAnimeService.class);
+        Call<List<Anime>> listCall = service.listAnimes();
+
+        listCall.enqueue(callback);
+    }
 }

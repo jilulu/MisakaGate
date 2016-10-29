@@ -6,7 +6,7 @@ $contents = str_replace("\n", '', $contents);
 
 $pattern = "#<tbody>(.*)</tbody>#";  
 preg_match($pattern, $contents, $tbody);
-$tr = explode("</tr>",$tbody[1]);
+$tr = explode("</tr>", $tbody[1]);
 array_pop($tr);
 
 $pattern = "#<script type=\"text/javascript\">var animeData =(.*);</script>#";  
@@ -22,18 +22,18 @@ foreach ($tr as $subject) {
 	preg_match($pattern, $subject, $data);
 
 	$content = array(
-		'tid' 			=> $data[1],
-		'name' 			=> $data[2],
-		'subtitle' 		=> $data[3],
+		'tid' 		=> $data[1],
+		'name' 		=> $data[2],
+		'subtitle' 	=> $data[3],
 		'resolution'	=> $data[4],
-		'language' 		=> $data[5],
-		'episode' 		=> $data[6],
-		'year' 			=> $data[7],
-		'season' 		=> $data[9],
-		'release' 		=> $data[10].' '.$data[11],
-		'update' 		=> $data[12].' '.$data[13],
-		'pic'			=> $anime[$data[1]]['pic'],
-		'intro'			=> $anime[$data[1]]['intro'],
+		'language' 	=> $data[5],
+		'episode' 	=> $data[6],
+		'year' 		=> $data[7],
+		'season' 	=> $data[9],
+		'release' 	=> $data[10].' '.$data[11],
+		'update' 	=> $data[12].' '.$data[13],
+		'pic'		=> $anime[$data[1]]['pic'],
+		'intro'		=> $anime[$data[1]]['intro'],
 	);
 	$json[] = $content;
 }

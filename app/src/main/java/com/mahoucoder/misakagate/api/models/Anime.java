@@ -38,5 +38,10 @@ public class Anime {
     @SerializedName("updated")
     @Expose
     public String updated;
-
+    @SerializedName("pic")
+    @Expose
+    public String pic;
+    @SerializedName("description")
+    @Expose
+    public String description;
 }

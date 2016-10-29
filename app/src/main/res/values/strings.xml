@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MisakaGate</string>
+    <string name="subtitle_group">Subtitle Group: </string>
+    <string name="resolution">Resolution: </string>
+    <string name="year">\'s</string>
+    <string name="language">Language: </string>
 </resources>

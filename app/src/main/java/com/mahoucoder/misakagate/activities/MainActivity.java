@@ -10,6 +10,7 @@ import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.adapters.AnimeListAdapter;
 import com.mahoucoder.misakagate.api.GateAPI;
 import com.mahoucoder.misakagate.api.models.Anime;
+import com.mahoucoder.misakagate.widgets.DividerItemDecoration;
 
 import java.util.List;
 
@@ -38,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
                 List<Anime> animeList = response.body();
                 System.out.println(animeList.size());
 
-                AnimeListAdapter animeListAdapter = new AnimeListAdapter(animeList);
+                animeListAdapter = new AnimeListAdapter(animeList);
                 animeListRecyclerView.setAdapter(animeListAdapter);
+                animeListRecyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this));
             }
 
             @Override

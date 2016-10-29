@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MisakaGate</string>
+    <string name="subtitle_group">字幕组：</string>
+    <string name="resolution">解析度：</string>
+    <string name="year">年</string>
+    <string name="language">语言：</string>
+</resources>

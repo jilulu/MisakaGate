@@ -36,8 +36,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
-    // HTML Parsing
-    compile "org.jsoup:jsoup:$jsoup_version"
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
     // ijkplayer
     compile 'tv.danmaku.ijk.media:ijkplayer-java:0.6.3'

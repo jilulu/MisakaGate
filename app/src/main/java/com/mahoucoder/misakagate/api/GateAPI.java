@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GateAPI {
     private static final String ANIME_BASE_URL = "http://anime.2d-gate.org";
     public static final String ANIME_CACHE_URL = ANIME_BASE_URL + "/__cache.html";
+    public static final String RELAY_API_URL = "http://api.mahoucoder.com";
 
     private static volatile Retrofit mRetrofit;
 
@@ -43,7 +44,7 @@ public class GateAPI {
                 if (mRetrofit == null) {
                     GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
                     mRetrofit = new Retrofit.Builder()
-                            .baseUrl("http://mahoucoder.com:8000/")
+                            .baseUrl(RELAY_API_URL)
                             .addConverterFactory(gsonConverterFactory)
                             .build();
                 }

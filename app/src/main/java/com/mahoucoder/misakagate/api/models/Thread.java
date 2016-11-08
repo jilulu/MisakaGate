@@ -8,10 +8,11 @@ import com.google.gson.annotations.SerializedName;
 
 import org.jsoup.Jsoup;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Thread {
+public class Thread implements Serializable {
 
     @SerializedName("fid")
     @Expose

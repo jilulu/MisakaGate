@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Window;
 
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
@@ -28,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        animeListRecyclerView = (RecyclerView) findViewById(R.id.anime_list_recycler);
-        animeListRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(GateApplication.getGlobalContext());
-        animeListRecyclerView.setLayoutManager(mLayoutManager);
+        initRecyclerView();
 
+        fetchAdapterDataAndBindToAdapter();
+    }
+
+    private void fetchAdapterDataAndBindToAdapter() {
         GateAPI.getAnimeList(new Callback<AnimeListCache>() {
             @Override
             public void onResponse(Call<AnimeListCache> call, Response<AnimeListCache> response) {
@@ -51,5 +50,12 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void initRecyclerView() {
+        animeListRecyclerView = (RecyclerView) findViewById(R.id.anime_list_recycler);
+        animeListRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(GateApplication.getGlobalContext());
+        animeListRecyclerView.setLayoutManager(mLayoutManager);
     }
 }

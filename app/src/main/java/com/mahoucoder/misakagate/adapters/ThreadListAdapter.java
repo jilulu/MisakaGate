@@ -1,13 +1,16 @@
 package com.mahoucoder.misakagate.adapters;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
+import com.mahoucoder.misakagate.activities.AnimeDetailActivity;
 import com.mahoucoder.misakagate.api.models.Thread;
 import com.mahoucoder.misakagate.utils.GateUtils;
 import com.squareup.picasso.Picasso;
@@ -18,7 +21,7 @@ import java.util.List;
  * Created by jamesji on 28/10/2016.
  */
 
-public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.ViewHolder>  {
+public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.ViewHolder> implements View.OnClickListener {
 
     private List<Thread> threadList;
 
@@ -30,7 +33,7 @@ public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.anime_layout, null);
         ViewHolder viewHolder = new ViewHolder(viewGroup);
-//        viewHolder.rootView.setOnClickListener(ThreadListAdapter.this);
+        viewHolder.rootView.setOnClickListener(ThreadListAdapter.this);
         return viewHolder;
     }
 
@@ -58,12 +61,12 @@ public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.Vi
         return threadList.size();
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        Anime anime = (Anime) view.getTag();
-//        Intent intent = AnimeDetailActivity.buildLaunchIntent(view.getContext(), anime);
-//        view.getContext().startActivity(intent);
-//    }
+    @Override
+    public void onClick(View view) {
+        Thread anime = (Thread) view.getTag();
+        Intent intent = AnimeDetailActivity.buildLaunchIntent(view.getContext(), anime);
+        view.getContext().startActivity(intent);
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 

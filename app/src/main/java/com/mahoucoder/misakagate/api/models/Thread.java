@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.mahoucoder.misakagate.GateApplication;
+import com.mahoucoder.misakagate.R;
 
 import org.jsoup.Jsoup;
 
@@ -37,7 +39,7 @@ public class Thread implements Serializable {
     public Integer year;
     @SerializedName("season")
     @Expose
-    public Object season;
+    public String season;
     @SerializedName("extra")
     @Expose
     public String extra;
@@ -111,7 +113,8 @@ public class Thread implements Serializable {
 
     public String getYearAndSeason() {
         try {
-            return year + " " + season;
+            return (year == null ? GateApplication.getGlobalContext().getString(R.string.some_year) : year.toString())
+                    + (TextUtils.isEmpty(season) ? "" : " " + season);
         } catch (Exception e) {
             return "";
         }

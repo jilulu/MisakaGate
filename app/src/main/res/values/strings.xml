@@ -4,4 +4,5 @@
     <string name="resolution">"Resolution: "</string>
     <string name="year">"Year/Season: "</string>
     <string name="language">"Language: "</string>
+    <string name="some_year">Some year</string>
 </resources>

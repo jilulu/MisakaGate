@@ -34,6 +34,12 @@ public class AnimeDetailActivity extends AppCompatActivity {
 
         mAnime = (Thread) getIntent().getSerializableExtra(EXTRA_KEY);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(mAnime.getTitle());
+        } else if (getActionBar() != null) {    
+            getActionBar().setTitle(mAnime.getTitle());
+        }
+
         AnimeView animeView = (AnimeView) findViewById(R.id.anime_view);
         animeView.bind(mAnime);
 
@@ -48,6 +54,9 @@ public class AnimeDetailActivity extends AppCompatActivity {
             public void onNext(List<String> strings) {
                 episodeAdapter = new EpisodeListAdapter(strings);
                 episodeRecycler.setAdapter(episodeAdapter);
+                if (episodeAdapter instanceof EpisodeListAdapter) {
+                    ((EpisodeListAdapter) episodeAdapter).setData(mAnime);
+                }
             }
 
             @Override

@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class AnimeListActivity extends AppCompatActivity {
 
     private RecyclerView animeListRecyclerView;
     private RecyclerView.Adapter animeListAdapter;
@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AnimeListCache> call, Response<AnimeListCache> response) {
                 AnimeListCache animeListCache = response.body();
-                GateUtils.logd(MainActivity.class.getSimpleName(), String.format(Locale.ENGLISH, "Got %d threads from server. ", animeListCache.threads.size()));
+                GateUtils.logd(AnimeListActivity.class.getSimpleName(), String.format(Locale.ENGLISH, "Got %d threads from server. ", animeListCache.threads.size()));
                 animeListAdapter = new ThreadListAdapter(animeListCache.threads);
                 animeListRecyclerView.setAdapter(animeListAdapter);
-                animeListRecyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this));
+                animeListRecyclerView.addItemDecoration(new DividerItemDecoration(AnimeListActivity.this));
             }
 
             @Override

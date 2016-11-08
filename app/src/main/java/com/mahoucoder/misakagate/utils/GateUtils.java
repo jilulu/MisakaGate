@@ -65,4 +65,8 @@ public class GateUtils {
     public static void logd(String message) {
         logd(GateApplication.class.getSimpleName(), message);
     }
+
+    public static String convertJsonFeed(String url) {
+        return url.replace("/embed/", "/json-feed/");
+    }
 }

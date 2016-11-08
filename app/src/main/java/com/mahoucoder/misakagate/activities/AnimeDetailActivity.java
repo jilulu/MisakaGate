@@ -15,6 +15,7 @@ import com.mahoucoder.misakagate.adapters.EpisodeListAdapter;
 import com.mahoucoder.misakagate.api.GateAPI;
 import com.mahoucoder.misakagate.api.models.Thread;
 import com.mahoucoder.misakagate.utils.GateUtils;
+import com.mahoucoder.misakagate.widgets.AnimeView;
 
 import java.util.List;
 
@@ -32,6 +33,9 @@ public class AnimeDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_anime_detail);
 
         mAnime = (Thread) getIntent().getSerializableExtra(EXTRA_KEY);
+
+        AnimeView animeView = (AnimeView) findViewById(R.id.anime_view);
+        animeView.bind(mAnime);
 
         initRecyclerView();
 

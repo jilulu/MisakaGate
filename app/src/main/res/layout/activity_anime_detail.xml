@@ -4,15 +4,20 @@
     android:id="@+id/activity_anime_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.mahoucoder.misakagate.activities.AnimeDetailActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <com.mahoucoder.misakagate.widgets.AnimeView
+        android:id="@+id/anime_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/episode_list_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/episode_list_recycler"
-        tools:listitem="@layout/episode_card"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
-        app:spanCount="4"/>
+        app:spanCount="4"
+        tools:listitem="@layout/episode_card" />
 
 </LinearLayout>

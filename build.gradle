@@ -16,7 +16,7 @@ buildscript {
     ext.okhttp_version = '3.4.1'
     ext.rx_version = '1.1.9'
     ext.rx_android_version = '1.2.1'
-    ext.compat_version = '24.2.1'
+    ext.compat_version = '25.0.0'
     ext.jsoup_version = '1.10.1'
 }
 

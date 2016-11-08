@@ -7,6 +7,7 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:contentDescription="@string/anime_cover_description"
         android:id="@+id/anime_cover_imageview"
         android:layout_width="0dp"
         android:layout_height="160dp"

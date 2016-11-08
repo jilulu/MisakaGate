@@ -2,6 +2,9 @@ package com.mahoucoder.misakagate.api;
 
 import com.mahoucoder.misakagate.api.models.AnimeListCache;
 import com.mahoucoder.misakagate.api.models.ListAnimeService;
+import com.mahoucoder.misakagate.api.models.PlaybackInfo;
+import com.mahoucoder.misakagate.api.models.PlaybackInfoService;
+import com.mahoucoder.misakagate.utils.GateUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,11 +31,23 @@ import rx.schedulers.Schedulers;
 
 public class GateAPI {
     private static final String ANIME_BASE_URL = "http://anime.2d-gate.org/";
+    private static final String EMBED_BASE_URL = "http://embed.2d-gate.org/";
     private static final String EPISODE_LIST_POST_URL = "http://2d-gate.org/thread-%s-1-1.html";
 
-    private static volatile Retrofit mRetrofit;
-
+    private static volatile Retrofit mRetrofit, vRetrofit;
+    private static volatile GsonConverterFactory gsonConverterFactory;
     private static volatile OkHttpClient mClient;
+
+    public static GsonConverterFactory getGsonConverterFactory() {
+        if (gsonConverterFactory == null) {
+            synchronized (GateAPI.class) {
+                if (gsonConverterFactory == null) {
+                    gsonConverterFactory = GsonConverterFactory.create();
+                }
+            }
+        }
+        return gsonConverterFactory;
+    }
 
     public static OkHttpClient getOKHTTP() {
         if (mClient == null) {
@@ -49,15 +64,28 @@ public class GateAPI {
         if (mRetrofit == null) {
             synchronized (GateAPI.class) {
                 if (mRetrofit == null) {
-                    GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
                     mRetrofit = new Retrofit.Builder()
                             .baseUrl(ANIME_BASE_URL)
-                            .addConverterFactory(gsonConverterFactory)
+                            .addConverterFactory(getGsonConverterFactory())
                             .build();
                 }
             }
         }
         return mRetrofit;
+    }
+
+    public static Retrofit getVideoInfoRetrofit() {
+        if (vRetrofit == null) {
+            synchronized (GateAPI.class) {
+                if (vRetrofit == null) {
+                    vRetrofit = new Retrofit.Builder()
+                            .baseUrl(EMBED_BASE_URL)
+                            .addConverterFactory(getGsonConverterFactory())
+                            .build();
+                }
+            }
+        }
+        return vRetrofit;
     }
 
     public static void getEpisodeList(final String tid, Observer<List<String>> observer) {
@@ -92,5 +120,18 @@ public class GateAPI {
         Call<AnimeListCache> listCall = service.getAnimeCache();
 
         listCall.enqueue(callback);
+    }
+
+    public static void getPlaybackInfo(String url, Callback<PlaybackInfo[]> callback) {
+        Pattern pattern = Pattern.compile("http://embed.2d-gate.org/json-feed/([^/]+)/\\?hash=(.+)");
+        Matcher matcher = pattern.matcher(url);
+        if (!matcher.matches()) {
+            GateUtils.logd("Pattern match failed for " + url);
+            return;
+        }
+        Retrofit retrofit = getVideoInfoRetrofit();
+        PlaybackInfoService service = retrofit.create(PlaybackInfoService.class);
+        Call<PlaybackInfo[]> infoCall = service.getPlayBackInfo(matcher.group(1), matcher.group(2));
+        infoCall.enqueue(callback);
     }
 }

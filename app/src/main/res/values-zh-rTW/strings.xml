@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources> 
-    <string name="app_name">御坂之门</string> 
-    <string name="subtitle_group">字幕組：</string> 
-    <string name="resolution">解析度：</string> 
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">御阪之門</string>
+    <string name="subtitle_group">字幕組：</string>
+    <string name="resolution">解析度：</string>
     <string name="year">首映年：</string>
-     <string name="language">字幕語言：</string>
-    <string name="some_year">某年</string> 
+    <string name="language">字幕語言：</string>
+    <string name="some_year">某年</string>
+    <string name="retry">重試</string>
+    <string name="loading_res_list">"正在獲取視頻列表"</string>
+    <string name="loading">"正在加載"</string>
+    <string name="loading_res_list_failed">"獲取視頻列表失敗"</string>
+    <string name="audio">音頻</string>
+    <string name="enable_random_adaptation">開啓隨機適配</string>
+    <string name="error_drm_not_supported">受保護的內容在API18之下不可用</string>
+    <string name="error_drm_unknown">發生了一個未知的DRM錯誤</string>
+    <string name="error_drm_unsupported_scheme">此設備不支持需要的DRM格式</string>
+    <string name="error_instantiating_decoder">無法實例化解碼器<xliff:g id="decoder_name">%1$s</xliff:g></string>
+    <string name="error_no_decoder">此設備不提供解碼器 <xliff:g id="mime_type">%1$s</xliff:g></string>
+    <string name="error_no_secure_decoder">此設備不提供安全解碼器 <xliff:g id="mime_type">%1$s</xliff:g></string>
+    <string name="error_querying_decoders">無法查詢設備解碼器</string>
+    <string name="error_unsupported_audio">設備包含音頻軌道，但沒有一個是本設備能夠播放的</string>
+    <string name="error_unsupported_video">設備包含視頻軌道，但沒有一個是本設備能夠播放的</string>
+    <string name="selection_default">默認</string>
+    <string name="selection_default_none">默認（無）</string>
+    <string name="selection_disabled">禁用</string>
+    <string name="storage_permission_denied">存儲權限被拒絕</string>
+    <string name="text">文本</string>
+    <string name="unexpected_intent_action">意料之外的 intent action: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="video">視頻</string>
+    <string name="anime_cover_description">動漫封面</string>
+    <string name="middle_dot">" · "</string>
 </resources>

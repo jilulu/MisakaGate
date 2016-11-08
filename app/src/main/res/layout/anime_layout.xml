@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/anime_cover_imageview"
+        android:contentDescription="@string/anime_cover_description"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_margin="5dp"
@@ -50,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" · " />
+                android:text="@string/middle_dot" />
 
             <TextView
                 android:id="@+id/anime_resolution_textview"
@@ -82,7 +83,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" · " />
+                android:text="@string/middle_dot" />
 
             <TextView
                 android:id="@+id/anime_charset_textview"

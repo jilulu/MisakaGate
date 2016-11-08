@@ -27,25 +27,34 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private Thread mAnime;
     private RecyclerView episodeRecycler;
     private RecyclerView.Adapter episodeAdapter;
+    AnimeView animeView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anime_detail);
 
+        initView();
+
+        bindViewWithData();
+
+        fetchAdapterDataAndBindToAdapter();
+    }
+
+    private void initView() {
+        animeView = (AnimeView) findViewById(R.id.anime_view);
+        initRecyclerView();
+    }
+
+    private void bindViewWithData() {
         mAnime = (Thread) getIntent().getSerializableExtra(EXTRA_KEY);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(mAnime.getTitle());
-        } else if (getActionBar() != null) {    
+        } else if (getActionBar() != null) {
             getActionBar().setTitle(mAnime.getTitle());
         }
 
-        AnimeView animeView = (AnimeView) findViewById(R.id.anime_view);
         animeView.bind(mAnime);
-
-        initRecyclerView();
-
-        fetchAdapterDataAndBindToAdapter();
     }
 
     private void fetchAdapterDataAndBindToAdapter() {

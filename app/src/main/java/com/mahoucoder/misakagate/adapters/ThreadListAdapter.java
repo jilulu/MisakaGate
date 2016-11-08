@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
-import com.mahoucoder.misakagate.api.models.Anime;
+import com.mahoucoder.misakagate.api.models.Thread;
 import com.mahoucoder.misakagate.utils.GateUtils;
 import com.squareup.picasso.Picasso;
 
@@ -18,32 +18,36 @@ import java.util.List;
  * Created by jamesji on 28/10/2016.
  */
 
-public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.ViewHolder> {
+public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.ViewHolder>  {
 
-    private List<Anime> animeList;
+    private List<Thread> threadList;
 
-    public AnimeListAdapter(List<Anime> animeList) {
-        this.animeList = animeList;
+    public ThreadListAdapter(List<Thread> threadList) {
+        this.threadList = threadList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.anime_layout, null);
-        return new ViewHolder(viewGroup);
+        ViewHolder viewHolder = new ViewHolder(viewGroup);
+//        viewHolder.rootView.setOnClickListener(ThreadListAdapter.this);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Anime anime = animeList.get(position);
-        holder.titleText.setText(anime.name);
-        holder.subtitleGroupText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.subtitle_group), anime.subtitleGroup));
-        holder.resText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.resolution), anime.resolution));
-        holder.yearText.setText(String.format("%s%s", anime.year.toString(), GateApplication.getGlobalContext().getString(R.string.year)));
-        holder.charsetText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.language), anime.subtitleLanguage));
+        Thread thread = threadList.get(position);
+        holder.titleText.setText(thread.getTitle());
+        holder.subtitleGroupText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.subtitle_group), thread.getSubtitleGroup()));
+        holder.resText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.resolution), thread.getResolution()));
+        holder.yearText.setText(String.format("%s", thread.getYearAndSeason()));
+        holder.charsetText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.language), thread.getSubtitleLanguage()));
+
+        holder.rootView.setTag(thread);
 
         int v = (int) GateUtils.dp2px(GateApplication.getGlobalContext(), 80);
         Picasso.with(GateApplication.getGlobalContext())
-                .load(anime.pic)
+                .load(thread.pic)
                 .centerCrop()
                 .resize(v, v)
                 .into(holder.coverImageView);
@@ -51,16 +55,25 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
 
     @Override
     public int getItemCount() {
-        return animeList.size();
+        return threadList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+//    @Override
+//    public void onClick(View view) {
+//        Anime anime = (Anime) view.getTag();
+//        Intent intent = AnimeDetailActivity.buildLaunchIntent(view.getContext(), anime);
+//        view.getContext().startActivity(intent);
+//    }
 
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        ViewGroup rootView;
         TextView titleText, subtitleGroupText, resText, yearText, charsetText;
         ImageView coverImageView;
 
-        public ViewHolder(ViewGroup itemView) {
+        ViewHolder(ViewGroup itemView) {
             super(itemView);
+            rootView = (ViewGroup) itemView.findViewById(R.id.anime_root_view);
             titleText = (TextView) itemView.findViewById(R.id.anime_title_textview);
             subtitleGroupText = (TextView) itemView.findViewById(R.id.anime_subtitle_group_textview);
             resText = (TextView) itemView.findViewById(R.id.anime_resolution_textview);

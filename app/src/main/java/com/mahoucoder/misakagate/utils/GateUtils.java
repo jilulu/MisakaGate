@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.util.TypedValue;
+
+import com.mahoucoder.misakagate.BuildConfig;
+import com.mahoucoder.misakagate.GateApplication;
 
 /**
  * Created by jamesji on 29/10/2016.
@@ -45,5 +49,20 @@ public class GateUtils {
             unit = "d";
         }
         return abs + unit;
+    }
+
+    public static int ordinalIndexOf(String str, String s, int n) {
+        int pos = str.indexOf(s, 0);
+        while (n-- > 0 && pos != -1)
+            pos = str.indexOf(s, pos + 1);
+        return pos;
+    }
+
+    public static void logd(String tag, String message) {
+        if (BuildConfig.DEBUG) Log.d(tag, message);
+    }
+
+    public static void logd(String message) {
+        logd(GateApplication.class.getSimpleName(), message);
     }
 }

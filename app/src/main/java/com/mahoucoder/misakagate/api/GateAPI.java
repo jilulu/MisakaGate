@@ -1,14 +1,12 @@
 package com.mahoucoder.misakagate.api;
 
-import com.mahoucoder.misakagate.api.models.Anime;
+import com.mahoucoder.misakagate.api.models.AnimeListCache;
 import com.mahoucoder.misakagate.api.models.ListAnimeService;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -20,8 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GateAPI {
     private static final String ANIME_BASE_URL = "http://anime.2d-gate.org";
-    public static final String ANIME_CACHE_URL = ANIME_BASE_URL + "/__cache.html";
-    public static final String RELAY_API_URL = "http://api.mahoucoder.com";
+    public static final String API_BASE = "http://anime.2d-gate.org/";
+    public static final String EPISODE_LIST_POST_URL = "http://2d-gate.org/thread-%d-1-1.html";
 
     private static volatile Retrofit mRetrofit;
 
@@ -44,7 +42,7 @@ public class GateAPI {
                 if (mRetrofit == null) {
                     GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
                     mRetrofit = new Retrofit.Builder()
-                            .baseUrl(RELAY_API_URL)
+                            .baseUrl(API_BASE)
                             .addConverterFactory(gsonConverterFactory)
                             .build();
                 }
@@ -53,18 +51,16 @@ public class GateAPI {
         return mRetrofit;
     }
 
-    public static Response getAnimeListDOM() throws IOException {
-        OkHttpClient client = getOKHTTP();
-        Request request = new Request.Builder().url(ANIME_CACHE_URL)
-                .header("User-Agent", "Android Application by MahouCoder")
-                .build();
-        return client.newCall(request).execute();
+    public static void getEpisodeList(int tid, okhttp3.Callback callback) {
+        String url = String.format(Locale.ENGLISH, EPISODE_LIST_POST_URL, tid);
+        Request request = new Request.Builder().url(url).build();
+        getOKHTTP().newCall(request).enqueue(callback);
     }
 
-    public static void getAnimeList(Callback<List<Anime>> callback) {
+    public static void getAnimeList(Callback<AnimeListCache> callback) {
         Retrofit retrofit = getRetrofit();
         ListAnimeService service = retrofit.create(ListAnimeService.class);
-        Call<List<Anime>> listCall = service.listAnimes();
+        Call<AnimeListCache> listCall = service.getAnimeCache();
 
         listCall.enqueue(callback);
     }

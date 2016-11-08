@@ -1,7 +1,5 @@
 package com.mahoucoder.misakagate.api.models;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -10,6 +8,6 @@ import retrofit2.http.GET;
  */
 
 public interface ListAnimeService {
-    @GET("/list_v1.json")
-    Call<List<Anime>> listAnimes();
+    @GET("/__cache.json")
+    Call<AnimeListCache> getAnimeCache();
 }

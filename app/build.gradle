@@ -22,7 +22,7 @@ android {
                 keyAlias signingProp.get("release.keyAlias")
                 keyPassword signingProp.get("release.keyPassword")
             } else if (System.getenv('encrypted_046cd0986819_key') != null && System.getenv('encrypted_046cd0986819_iv') != null) {
-                storeFile file('./gate.jks')
+                storeFile rootProject.file('gate.jks')
                 storePassword System.getenv("keyStorePassword")
                 keyAlias System.getenv("keyAlias")
                 keyPassword System.getenv("keyPassword")

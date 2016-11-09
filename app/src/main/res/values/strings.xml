@@ -1,5 +1,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">MisakaGate</string>
+    <string name="umeng_channel" translatable="false">mahoucoder</string>
+    <string name="season_not_classified">One season in total</string>
     <string name="subtitle_group">"Subtitle Group: "</string>
     <string name="resolution">"Resolution: "</string>
     <string name="year">"Year/Season: "</string>

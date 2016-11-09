@@ -1,10 +1,15 @@
 package com.mahoucoder.misakagate.api;
 
 import com.mahoucoder.misakagate.api.models.AnimeListCache;
+import com.mahoucoder.misakagate.api.models.AnimeSeason;
 import com.mahoucoder.misakagate.api.models.ListAnimeService;
 import com.mahoucoder.misakagate.api.models.PlaybackInfo;
 import com.mahoucoder.misakagate.api.models.PlaybackInfoService;
+import com.mahoucoder.misakagate.utils.GateParser;
 import com.mahoucoder.misakagate.utils.GateUtils;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +20,7 @@ import java.util.regex.Pattern;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.BufferedSource;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -112,6 +118,67 @@ public class GateAPI {
         listObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
+    }
+
+    public static void getEpisodeDiv(final String tid, final Observer<Element> observer) {
+        Observable<Element> listObservable = Observable.create(new Observable.OnSubscribe<Element>() {
+            @Override
+            public void call(Subscriber<? super Element> subscriber) {
+                String url = String.format(EPISODE_LIST_POST_URL, tid);
+                Request request = new Request.Builder().url(url).build();
+                try {
+                    Response response = getOKHTTP().newCall(request).execute();
+                    BufferedSource source = response.body().source();
+                    StringBuilder domBuilder = new StringBuilder();
+                    String addressDiv = null;
+                    int findsInDiv = 0;
+                    Pattern p = Pattern.compile("http://embed.2d-gate.org/");
+                    while (!source.exhausted()) {
+                        int numFinds = 0;
+                        String s = source.readUtf8Line();
+                        Matcher matcher = p.matcher(s);
+                        while (matcher.find()) {
+                            numFinds += 1;
+                        }
+                        if (numFinds > findsInDiv) {
+                            findsInDiv = numFinds;
+                            addressDiv = s;
+                        }
+                        domBuilder.append(s);
+                    }
+                    String id = Jsoup.parse(addressDiv).body().child(0).id();
+                    subscriber.onNext(Jsoup.parse(domBuilder.toString()).body().getElementById(id));
+                } catch (IOException e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+
+        listObservable.subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .subscribe(observer);
+    }
+
+    public static void getEpisodeStructure(String tid, final Observer<List<AnimeSeason>> observer) {
+        Observer<Element> divisionObserver = new Observer<Element>() {
+            @Override
+            public void onNext(Element rootNode) {
+                List<AnimeSeason> seasonList = GateParser.parseNodeIntoAnimeSeasonList(rootNode);
+                GateUtils.logd("TagParsing", seasonList.size() + " seasons parsed. ");
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                observer.onError(e);
+            }
+        };
+
+        getEpisodeDiv(tid, divisionObserver);
     }
 
     public static void getAnimeList(Callback<AnimeListCache> callback) {

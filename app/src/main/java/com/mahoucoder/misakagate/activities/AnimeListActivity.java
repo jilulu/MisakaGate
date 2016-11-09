@@ -1,7 +1,6 @@
 package com.mahoucoder.misakagate.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -19,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AnimeListActivity extends AppCompatActivity {
+public class AnimeListActivity extends BaseActivity {
 
     private RecyclerView animeListRecyclerView;
     private RecyclerView.Adapter animeListAdapter;

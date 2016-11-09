@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".GateApplication"
@@ -23,32 +26,39 @@
         </activity>
         <activity
             android:name=".activities.AnimeDetailActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activities.AnimeListActivity">
-        </activity>
+            android:parentActivityName=".activities.AnimeListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PlaybackActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:theme="@style/PlayerTheme"
+            android:name=".activities.GatePlaybackActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTop"
-            android:name=".activities.GatePlaybackActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:theme="@style/PlayerTheme">
             <intent-filter>
-                <action android:name="com.google.android.exoplayer.demo.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="http"/>
-                <data android:scheme="https"/>
-                <data android:scheme="content"/>
-                <data android:scheme="asset"/>
-                <data android:scheme="file"/>
+                <action android:name="com.google.android.exoplayer.demo.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:scheme="content" />
+                <data android:scheme="asset" />
+                <data android:scheme="file" />
             </intent-filter>
             <intent-filter>
-                <action android:name="com.google.android.exoplayer.demo.action.VIEW_LIST"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.google.android.exoplayer.demo.action.VIEW_LIST" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="@string/umeng_app_key" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="@string/umeng_channel" />
     </application>
 
 </manifest>

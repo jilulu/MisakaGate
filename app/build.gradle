@@ -11,6 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     signingConfigs {
         release {
             File signingPropFile = rootProject.file('signing.properties')
@@ -37,7 +38,13 @@ android {
             if (rootProject.file('signing.properties').exists() ||
                     (System.getenv('encrypted_046cd0986819_key') != null && System.getenv('encrypted_046cd0986819_iv') != null)) {
                 signingConfig signingConfigs.release
+                Properties signingProp = new Properties()
+                signingProp.load(rootProject.file('signing.properties').newDataInputStream())
+                resValue "string", "umeng_app_key", signingProp.get("umeng_api_key")
             }
+        }
+        debug {
+            resValue "string", "umeng_app_key", "${umeng_api_key}"
         }
     }
 }
@@ -72,6 +79,9 @@ dependencies {
 
     // Google exo player
     compile 'com.google.android.exoplayer:exoplayer:r2.0.4'
+
+    // Umeng stats
+    compile 'com.umeng.analytics:analytics:latest.integration'
 
     testCompile 'junit:junit:4.12'
 }

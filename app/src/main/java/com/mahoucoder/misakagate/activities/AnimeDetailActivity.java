@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -14,6 +13,7 @@ import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.adapters.EpisodeListAdapter;
 import com.mahoucoder.misakagate.api.GateAPI;
+import com.mahoucoder.misakagate.api.models.AnimeSeason;
 import com.mahoucoder.misakagate.api.models.Thread;
 import com.mahoucoder.misakagate.utils.GateUtils;
 import com.mahoucoder.misakagate.widgets.AnimeView;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import rx.Observer;
 
-public class AnimeDetailActivity extends AppCompatActivity {
+public class AnimeDetailActivity extends BaseActivity {
 
     private static final String EXTRA_KEY = "EXTRA_KEY";
     private Thread mAnime;
@@ -40,6 +40,23 @@ public class AnimeDetailActivity extends AppCompatActivity {
         bindViewWithData();
 
         fetchAdapterDataAndBindToAdapter();
+
+        GateAPI.getEpisodeStructure(mAnime.tid, new Observer<List<AnimeSeason>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(List<AnimeSeason> animeSeasons) {
+                System.out.println(animeSeasons);
+            }
+        });
     }
 
     private void initView() {

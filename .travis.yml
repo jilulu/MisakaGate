@@ -12,7 +12,9 @@ jdk:
 
 script:
   - ./gradlew assembleRelease
+
 before_deploy: "openssl aes-256-cbc -K $encrypted_046cd0986819_key -iv $encrypted_046cd0986819_iv -in .gate.jks.enc -out gate.jks -d"
+
 deploy:
   provider: releases
   api_key:

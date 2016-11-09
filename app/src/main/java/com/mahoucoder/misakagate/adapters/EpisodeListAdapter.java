@@ -1,12 +1,13 @@
 package com.mahoucoder.misakagate.adapters;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.PopupMenu;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.mahoucoder.misakagate.api.models.PlaybackInfo;
 import com.mahoucoder.misakagate.api.models.PlaybackSource;
 import com.mahoucoder.misakagate.api.models.Thread;
 import com.mahoucoder.misakagate.utils.GateUtils;
+import com.mahoucoder.misakagate.widgets.ChooseResolutionDialogFragment;
 
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +42,10 @@ public class EpisodeListAdapter extends RecyclerView.Adapter<EpisodeListAdapter.
     public EpisodeListAdapter(List<String> episodeURLList) {
         this.episodeURLList = episodeURLList;
     }
+
     private ProgressDialog progressDialog;
+
+    private static final String FRAGMENT_TAG = "resolution_choose_fragment_tag";
 
     public void setData(Thread anime) {
         this.anime = anime;
@@ -79,42 +84,51 @@ public class EpisodeListAdapter extends RecyclerView.Adapter<EpisodeListAdapter.
                 PlaybackInfo[] body = response.body();
 
                 final List<PlaybackSource> sources = body[0].sources;
-                PopupMenu resMenu = new PopupMenu(view.getContext(), view);
-                if (sources.size() == 0) {
-                    onFailure(call, new RuntimeException("Response is empty"));
-                    progressDialog.dismiss();
-                }
+
+                CharSequence[] titles = new String[sources.size()];
                 for (int i = 0; i < sources.size(); i++) {
-                    PlaybackSource playbackSource = sources.get(i);
-                    resMenu.getMenu().add(0, i, i, playbackSource.label);
+                    titles[i] = sources.get(i).label;
                 }
-                resMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-//                        Toast.makeText(GateApplication.getGlobalContext(), sources.get(item.getItemId()).file, Toast.LENGTH_SHORT).show();
+
+                ChooseResolutionDialogFragment.ChooseResolutionDialogClickListener listener = new ChooseResolutionDialogFragment.ChooseResolutionDialogClickListener() {
+                    public void itemClicked(int index) {
                         Intent intent = new Intent(GateApplication.getGlobalContext(), GatePlaybackActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra(GatePlaybackActivity.PREFER_EXTENSION_DECODERS, false);
-                        intent.setData(Uri.parse(sources.get(item.getItemId()).file));
+                        intent.setData(Uri.parse(sources.get(index).file));
                         intent.setAction(GatePlaybackActivity.ACTION_VIEW);
                         GateApplication.getGlobalContext().startActivity(intent);
-
-                        return false;
                     }
-                });
-                resMenu.show();
+                };
 
-                progressDialog.dismiss();
+                showResolutionChooseDialog(titles, listener, view.getContext());
+
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
             }
 
             @Override
             public void onFailure(Call<PlaybackInfo[]> call, Throwable t) {
                 t.printStackTrace();
-                progressDialog.dismiss();
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
                 Toast.makeText(GateApplication.getGlobalContext(), GateApplication
                         .getGlobalContext().getString(R.string.loading_res_list_failed), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showResolutionChooseDialog(CharSequence[] titles, ChooseResolutionDialogFragment.ChooseResolutionDialogClickListener listener, Context context) {
+        ChooseResolutionDialogFragment resolutionChooseFragment = new ChooseResolutionDialogFragment();
+        resolutionChooseFragment.setData(titles, listener);
+        if (context instanceof AppCompatActivity) {
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(resolutionChooseFragment, FRAGMENT_TAG)
+                    .commitAllowingStateLoss();
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -71,11 +71,11 @@ public class GatePlaybackActivity extends Activity implements View.OnClickListen
     public static final String DRM_KEY_REQUEST_PROPERTIES = "drm_key_request_properties";
     public static final String PREFER_EXTENSION_DECODERS = "prefer_extension_decoders";
 
-    public static final String ACTION_VIEW = "com.google.android.exoplayer.demo.action.VIEW";
+    public static final String ACTION_VIEW = "com.mahoucoder.misakagate.action.VIEW";
     public static final String EXTENSION_EXTRA = "extension";
 
     public static final String ACTION_VIEW_LIST =
-            "com.google.android.exoplayer.demo.action.VIEW_LIST";
+            "com.mahoucoder.misakagate.action.VIEW_LIST";
     public static final String URI_LIST_EXTRA = "uri_list";
     public static final String EXTENSION_LIST_EXTRA = "extension_list";
 

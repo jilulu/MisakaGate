@@ -29,4 +29,5 @@
     <string name="loading_res_list_failed">"Failed to load video list"</string>
     <string name="anime_cover_description">Anime cover</string>
     <string name="middle_dot">" · "</string>
+    <string name="choose_resolution">Choose a resolution</string>
 </resources>

@@ -30,4 +30,5 @@
     <string name="video">视频</string>
     <string name="anime_cover_description">动漫封面</string>
     <string name="middle_dot">" · "</string>
+    <string name="choose_resolution">选择清晰度</string>
 </resources>

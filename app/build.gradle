@@ -11,10 +11,33 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            File signingPropFile = rootProject.file('signing.properties')
+            if (signingPropFile.exists()) {
+                Properties signingProp = new Properties()
+                signingProp.load(signingPropFile.newDataInputStream())
+                storeFile file(signingProp.get("release.storeFile"))
+                storePassword signingProp.get("release.storePassord")
+                keyAlias signingProp.get("release.keyAlias")
+                keyPassword signingProp.get("release.keyPassword")
+            } else if (System.getenv('encrypted_046cd0986819_key') != null && System.getenv('encrypted_046cd0986819_iv') != null) {
+                storeFile file('./gate.jks')
+                storePassword System.getenv("keyStorePassword")
+                keyAlias System.getenv("keyAlias")
+                keyPassword System.getenv("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (rootProject.file('signing.properties').exists() ||
+                    (System.getenv('encrypted_046cd0986819_key') != null && System.getenv('encrypted_046cd0986819_iv') != null)) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }

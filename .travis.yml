@@ -11,5 +11,14 @@ jdk:
   - oraclejdk8
 
 script:
-  - bash './gradlew assembleDebug'
-
+  - ./gradlew assembleRelease
+before_deploy: "openssl aes-256-cbc -K $encrypted_046cd0986819_key -iv $encrypted_046cd0986819_iv -in .gate.jks.enc -out gate.jks -d"
+deploy:
+  provider: releases
+  api_key:
+    secure: yavm4GgZaKa3mzFFRIwysDzFLrcLQo1epelzo0HnSBTpqKRtH/RtY6Ze8Scpsp15kM2Sj8ut0UEC7IZPxnG6oMYqwofRLvmHslxwJYIIf5iekOnblNhitt1Y5IgikCD3KIFmlC00276ktowYLXuhe3skSuV6WL6R/SJKV758FSfWwc/N2CSAKZn0GNvIzWNVcd5WYBJg2gHO3qB04hF93F/B7wbbfQWUoni7FvzXjtZV5wki68O45BS31hExU+AiVGtVNczcmTDgReo/c6TWESTFQsf37TtgG0uUY6XnGvCW2yzH0MbbgTEHhVMCNY97pb9pF/QwwyE3gjvL2e1Q57h1Vf/gxPLXVQ3H9pDeTilDNQ4ETYMyP0MefVgu2dxZG9U2QzLF2gJvfyfxSYs/drLVflyEJf8cu9OLcVslCjjeHWg5TzeX35UjCuBNAfFEO+cmETSoBnWg/C0AZI7Cls5p6Wb33Bu9czs0WwKej1DnWXE+DgCH1XJTEwix5ClumLAK5S2ZIVrTi7AeEs9Mi984EFXzqRv9VQnaBXD4NcY2rnD39ixZ2FP0r7pT24IHkTyye7EQC3ez6X2IbG1nfrPbGgPL58sWDiwRpgdZBHTTegSWpYsR4QAsVO1Lo48nEzK5iHKR6F0lp9f8drdGHWdIQ7GJvTOVzmwQpSZhC/0=
+  file: "./app/build/outputs/apk/app-release.apk"
+  skip_cleanup: true
+  on:
+    repo: jilulu/MisakaGate
+    tags: true

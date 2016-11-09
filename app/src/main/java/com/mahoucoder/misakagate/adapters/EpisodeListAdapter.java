@@ -53,7 +53,7 @@ public class EpisodeListAdapter extends RecyclerView.Adapter<EpisodeListAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.episode_card, null);
+        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.episode_card, parent, false);
         ViewHolder viewHolder = new ViewHolder(rootView);
         viewHolder.itemView.setOnClickListener(EpisodeListAdapter.this);
         return viewHolder;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.mahoucoder.misakagate.GateApplication;
@@ -28,6 +29,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private RecyclerView episodeRecycler;
     private RecyclerView.Adapter episodeAdapter;
     AnimeView animeView;
+    public static final int SPAN_COUNT = 4;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,11 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private void initView() {
         animeView = (AnimeView) findViewById(R.id.anime_view);
         initRecyclerView();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void bindViewWithData() {
@@ -84,11 +91,11 @@ public class AnimeDetailActivity extends AppCompatActivity {
         episodeRecycler = (RecyclerView) findViewById(R.id.episode_list_recycler);
 
         episodeRecycler.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(AnimeDetailActivity.this, 4);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(AnimeDetailActivity.this, SPAN_COUNT);
 
         episodeRecycler.setLayoutManager(gridLayoutManager);
 
-        float distanceInPx = GateUtils.dp2px(GateApplication.getGlobalContext(), 5);
+        float distanceInPx = GateUtils.dp2px(GateApplication.getGlobalContext(), 3);
         SimpleItemDecoration simpleItemDecoration = new SimpleItemDecoration((int) distanceInPx);
         episodeRecycler.addItemDecoration(simpleItemDecoration);
     }
@@ -99,25 +106,29 @@ public class AnimeDetailActivity extends AppCompatActivity {
         return intent;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private class SimpleItemDecoration extends RecyclerView.ItemDecoration {
 
         private int space;
 
-        public SimpleItemDecoration(int space) {
+        SimpleItemDecoration(int space) {
             this.space = space;
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space;
+            outRect.left = parent.getChildAdapterPosition(view) % SPAN_COUNT == 0 ? space : 0;
             outRect.right = space;
-            outRect.bottom = space;
-
-            if (parent.getChildLayoutPosition(view) == 0) {
-                outRect.top = space;
-            } else {
-                outRect.top = 0;
-            }
+//            outRect.bottom = space;
+            outRect.top = space;
         }
     }
 }

@@ -1,40 +1,63 @@
 <?php
 header('Content-type:text/json');
-$url = "http://anime.2d-gate.org/__cache.html";
+$url = $_GET['url'];
+//$url = "http://2d-gate.org/thread-13075-1-1.html#.WCGideH5igQ";
+//$url = "http://2d-gate.org/thread-13127-1-1.html#.WCK5WeF94sk";
+
+$pattern = "#/thread-(.*)\.html#";
+preg_match($pattern, $url, $thread);
+$thread = $thread[1];  //13127-1-1
+
 $contents = file_get_contents($url);
 $contents = str_replace("\n", '', $contents);
 
-$pattern = "#<tbody>(.*)</tbody>#";  
-preg_match($pattern, $contents, $tbody);
-$tr = explode("</tr>", $tbody[1]);
-array_pop($tr);
+$pattern = "#<title>(.*)</title>#";
+preg_match($pattern, $contents, $title);
+$title = $title[1];
 
-$pattern = "#<script type=\"text/javascript\">var animeData =(.*);</script>#";  
-preg_match($pattern, $contents, $anime);
-$pattern = array("/{/", "/},/", "/\",/", "/:{/", "/:\"/");
-$replacement = array("{\"", "},\"", "\",\"", "\":{", "\":\"");
-$anime = preg_replace($pattern, $replacement, $anime[1]);
-$anime = json_decode($anime, true);
+$pattern = "#<div style=\"display:none\"(.*){jQuery\(this\)\.fadeIn\(300\)}}\)}\)</script>#";
+preg_match($pattern, $contents, $content);
+$content = $content[0];
 
-$json = array();
-foreach ($tr as $subject) {
-	$pattern = "#<tr data-tid=\"(.*)\"><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td class=\"(.*)\">(.*)</td><td>(.*)<p>(.*)</p></td><td>(.*)<p>(.*)</p></td><td>(.*)</td>#";  
-	preg_match($pattern, $subject, $data);
+$pattern = "#<div style=\"display:none\" id=\"(.*)\"><ul>(.*)</ul>#U";
+preg_match($pattern, $content, $season);
+$anime = array();
+$anime['id'] = $season[1];
+$anime['name'] = $title;
+$anime['season'] = array();
+$season = $season[2];
 
-	$content = array(
-		'tid' 		=> $data[1],
-		'name' 		=> $data[2],
-		'subtitle' 	=> $data[3],
-		'resolution'	=> $data[4],
-		'language' 	=> $data[5],
-		'episode' 	=> $data[6],
-		'year' 		=> $data[7],
-		'season' 	=> $data[9],
-		'release' 	=> $data[10].' '.$data[11],
-		'update' 	=> $data[12].' '.$data[13],
-		'pic'		=> $anime[$data[1]]['pic'],
-		'intro'		=> $anime[$data[1]]['intro'],
-	);
-	$json[] = $content;
+$pattern = "#<li><a href=\"/thread-" . $thread . "\.html\#(.*)\">(.*)</a></li>#U"; 
+preg_match_all($pattern, $season, $seasons);
+$sum = 0;
+foreach ($seasons[1] as $i => $id) {
+	$pattern = "#<div id=\"" . $id . "\"><div style=\"display:none\"(.*)</script></div>#U";
+	$res = preg_match($pattern, $content, $tmp);
+	$sum += $res;
 }
-echo json_encode($json);
+if($sum == 0){ //multiseasons
+	$seasons = array(array(), array($anime['id']), array('全一季'));
+}
+
+foreach ($seasons[1] as $i => $id) {
+	$anime['season'][$i]['id'] = $id;
+	$anime['season'][$i]['name'] = $seasons[2][$i];
+	$anime['season'][$i]['episode'] = array();
+	
+	$pattern = "#id=\"" . $id . "\">(.*)</script>#U";
+	preg_match($pattern, $content, $episodes);
+	$episodes = $episodes[0];
+
+	$pattern = "#<a href=\"/thread-" . $thread . "\.html\#(.*)\">(.*)</a>#U";  
+	preg_match_all($pattern, $episodes, $links);
+	foreach ($links[1] as $j => $id) {
+		$anime['season'][$i]['episode'][$j]['id'] = $id;
+		$anime['season'][$i]['episode'][$j]['name'] = $links[2][$j];
+		
+		$pattern = "#<div id=\"" . $id . "\">(.*)<span href=\"(.*)\" onclick#U";  
+		preg_match($pattern, $episodes, $addr);
+		$anime['season'][$i]['episode'][$j]['addr'] = $addr[2];
+	}
+}
+
+echo json_encode($anime);

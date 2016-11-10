@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.api.models.Thread;
-import com.squareup.picasso.Picasso;
+import com.mahoucoder.misakagate.utils.imageloader.ImageLoaderManager;
 
 /**
  * Created by jamesji on 8/11/2016.
@@ -38,7 +38,7 @@ public class AnimeView extends LinearLayout {
     }
 
     public void bind(Thread anime) {
-        Picasso.with(getContext()).load(anime.pic).into(mImageView);
+        ImageLoaderManager.getInstance().getLoader().load(anime.pic, mImageView);
         mTitle.setText(anime.getTitle());
 
         ForegroundColorSpan spanColor = new ForegroundColorSpan(Color.DKGRAY);

@@ -13,7 +13,8 @@ import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.activities.AnimeDetailActivity;
 import com.mahoucoder.misakagate.api.models.Thread;
 import com.mahoucoder.misakagate.utils.GateUtils;
-import com.squareup.picasso.Picasso;
+import com.mahoucoder.misakagate.utils.imageloader.ImageLoaderManager;
+import com.mahoucoder.misakagate.utils.imageloader.PicHostUtil;
 
 import java.util.List;
 
@@ -49,11 +50,11 @@ public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.Vi
         holder.rootView.setTag(thread);
 
         int v = (int) GateUtils.dp2px(GateApplication.getGlobalContext(), 80);
-        Picasso.with(GateApplication.getGlobalContext())
-                .load(thread.pic)
-                .centerCrop()
-                .resize(v, v)
-                .into(holder.coverImageView);
+        ImageLoaderManager.getInstance().getLoader().load(
+                PicHostUtil.convertSmallSquare(thread.pic),
+                holder.coverImageView,
+                v, v
+        );
     }
 
     @Override

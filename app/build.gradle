@@ -50,17 +50,16 @@ android {
         }
         debug {
             String umengApiKey = null
-            File gradlePropsFile = rootProject.file("gradle.properties")
-            if (gradlePropsFile.exists()) {
-                Properties gradleProps = new Properties()
-                gradleProps.load(gradlePropsFile.newDataInputStream())
-                if(umengApiKey.hasProperty("umeng_api_key")) {
-                    umengApiKey = gradleProps.getProperty("umeng_api_key")
-                }
+            File signingPropFile = rootProject.file('signing.properties')
+            if (signingPropFile.exists()) {
+                Properties signingProp = new Properties()
+                signingProp.load(signingPropFile.newDataInputStream())
+                umengApiKey = signingProp.get("umeng_api_key")
             }
             if (umengApiKey == null) {
                 umengApiKey = "0"
             }
+            System.out.println("Gradle set umeng_app_key = " + umengApiKey)
             resValue "string", "umeng_app_key", umengApiKey
         }
     }

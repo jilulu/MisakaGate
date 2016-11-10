@@ -1,9 +1,12 @@
 package com.mahoucoder.misakagate.utils;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -68,5 +71,11 @@ public class GateUtils {
 
     public static String convertJsonFeed(String url) {
         return url.replace("/embed/", "/json-feed/");
+    }
+
+    public static boolean checkAllPermissions() {
+        int phone = ContextCompat.checkSelfPermission(GateApplication.getGlobalContext(), Manifest.permission.READ_PHONE_STATE);
+        int storage = ContextCompat.checkSelfPermission(GateApplication.getGlobalContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return phone == PackageManager.PERMISSION_GRANTED && storage == PackageManager.PERMISSION_GRANTED;
     }
 }

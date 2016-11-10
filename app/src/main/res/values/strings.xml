@@ -32,4 +32,9 @@
     <string name="anime_cover_description">Anime cover</string>
     <string name="middle_dot">" · "</string>
     <string name="choose_resolution">Choose a resolution</string>
+    <string name="request_permission">"The following permissions are required to get you started. "</string>
+    <string name="phone">Phone</string>
+    <string name="storage">Storage</string>
+    <string name="issue_explanation">Phone: used for issue reporting. \nStorage: used for storing video files.</string>
+    <string name="allow_permissions">Allow permissions</string>
 </resources>

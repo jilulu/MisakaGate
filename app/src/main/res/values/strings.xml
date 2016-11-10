@@ -37,4 +37,5 @@
     <string name="storage">Storage</string>
     <string name="issue_explanation">Phone: used for issue reporting. \nStorage: used for storing video files.</string>
     <string name="allow_permissions">Allow permissions</string>
+    <string name="permission_request_result_thanks">"Completed! Preparing for first launch. "</string>
 </resources>

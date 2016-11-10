@@ -6,12 +6,15 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
 
 import com.mahoucoder.misakagate.BuildConfig;
 import com.mahoucoder.misakagate.GateApplication;
+
+import java.util.ArrayList;
 
 /**
  * Created by jamesji on 29/10/2016.
@@ -74,8 +77,20 @@ public class GateUtils {
     }
 
     public static boolean checkAllPermissions() {
+        return getMissingPermissionAsArray().length == 0;
+    }
+
+    @NonNull
+    public static String[] getMissingPermissionAsArray() {
         int phone = ContextCompat.checkSelfPermission(GateApplication.getGlobalContext(), Manifest.permission.READ_PHONE_STATE);
         int storage = ContextCompat.checkSelfPermission(GateApplication.getGlobalContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        return phone == PackageManager.PERMISSION_GRANTED && storage == PackageManager.PERMISSION_GRANTED;
+        ArrayList<String> permReqList = new ArrayList<String>();
+        if (phone != PackageManager.PERMISSION_GRANTED) {
+            permReqList.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if (storage != PackageManager.PERMISSION_GRANTED) {
+            permReqList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        return permReqList.toArray(new String[0]);
     }
 }

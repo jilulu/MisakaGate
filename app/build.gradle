@@ -38,19 +38,30 @@ android {
             if (rootProject.file('signing.properties').exists() ||
                     (System.getenv('encrypted_046cd0986819_key') != null && System.getenv('encrypted_046cd0986819_iv') != null)) {
                 signingConfig signingConfigs.release
-
-                File signingPropFile = rootProject.file('signing.properties')
-                if (signingPropFile.exists()) {
-                    Properties signingProp = new Properties()
-                    signingProp.load(signingPropFile.newDataInputStream())
-                    resValue "string", "umeng_app_key", signingProp.get("umeng_api_key")
-                } else if (System.getenv("umeng_api_key") != null) {
-                    resValue "string", "umeng_app_key", System.getenv("umeng_api_key")
-                }
+            }
+            File signingPropFile = rootProject.file('signing.properties')
+            if (signingPropFile.exists()) {
+                Properties signingProp = new Properties()
+                signingProp.load(signingPropFile.newDataInputStream())
+                resValue "string", "umeng_app_key", signingProp.get("umeng_api_key")
+            } else if (System.getenv("umeng_api_key") != null) {
+                resValue "string", "umeng_app_key", System.getenv("umeng_api_key")
             }
         }
         debug {
-            resValue "string", "umeng_app_key", "${umeng_api_key}"
+            String umengApiKey = null
+            File gradlePropsFile = rootProject.file("gradle.properties")
+            if (gradlePropsFile.exists()) {
+                Properties gradleProps = new Properties()
+                gradleProps.load(gradlePropsFile.newDataInputStream())
+                if(umengApiKey.hasProperty("umeng_api_key")) {
+                    umengApiKey = gradleProps.getProperty("umeng_api_key")
+                }
+            }
+            if (umengApiKey == null) {
+                umengApiKey = "0"
+            }
+            resValue "string", "umeng_app_key", umengApiKey
         }
     }
 }

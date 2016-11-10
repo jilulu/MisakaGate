@@ -1,4 +1,4 @@
-package com.mahoucoder.misakagate;
+package com.mahoucoder.misakagate.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.mahoucoder.misakagate.activities.AnimeListActivity;
+import com.mahoucoder.misakagate.GateApplication;
+import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.utils.GateUtils;
 import com.mahoucoder.misakagate.widgets.RequestPermissionView;
 

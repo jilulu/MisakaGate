@@ -11,9 +11,6 @@ import java.util.List;
 public class AnimeSeason implements Serializable {
 
     private String seasonTitle;
-    private String tabId;
-    private boolean isSeasonClassified;
-    public String coverURL;
 
     public List<PlayableAnime> playableAnimeList = new ArrayList<>();
 
@@ -25,26 +22,14 @@ public class AnimeSeason implements Serializable {
         this.seasonTitle = seasonTitle;
     }
 
-    public void setSeasonClassified(boolean seasonClassified) {
-        isSeasonClassified = seasonClassified;
-    }
-
-    public boolean isSeasonClassified() {
-        return isSeasonClassified;
-    }
-
-    public String getTabId() {
-        return tabId;
-    }
-
-    public void setTabId(String tabId) {
-        this.tabId = tabId;
+    @Override
+    public String toString() {
+        return String.format("{\"seasonTitle\":\"%s\",\"playableAnimeList\":", seasonTitle) + playableAnimeList.toString() + "}";
     }
 
     public static class PlayableAnime {
         private String title;
         private String playbackAddress;
-        public String tabId;
 
         public PlayableAnime(String title) {
             this.title = title;
@@ -54,16 +39,17 @@ public class AnimeSeason implements Serializable {
             return title;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
         public String getPlaybackAddress() {
             return playbackAddress;
         }
 
         public void setPlaybackAddress(String playbackAddress) {
             this.playbackAddress = playbackAddress;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("{\"title\":\"%s\",\"playbackAddress\":\"%s\"}", title, playbackAddress);
         }
     }
 }

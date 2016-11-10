@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.mahoucoder.misakagate.EntranceActivity">
+    tools:context="com.mahoucoder.misakagate.activities.EntranceActivity">
 
     <TextView
         android:id="@+id/entrance_text"

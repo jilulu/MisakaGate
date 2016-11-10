@@ -1,9 +1,5 @@
 package com.mahoucoder.misakagate.utils;
 
-import android.text.TextUtils;
-
-import com.mahoucoder.misakagate.GateApplication;
-import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.api.models.AnimeSeason;
 
 import org.jsoup.nodes.Element;
@@ -19,94 +15,54 @@ import java.util.List;
 
 public class GateParser {
 
-    // Magic number, if at top level there are more than this number of elements then consider all
-    // elements to be episodes, and seasons otherwise.
-    public static final int ANIME_SEASON_THRESHOLD = 5;
+    // TODO
+    public static final String ONE_SEASON_TEXT = "共一季";
 
     public static List<AnimeSeason> parseNodeIntoAnimeSeasonList(Element rootNode) {
-        Elements elements = rootNode.select("ul > li > a");
-
-        List<AnimeSeason> animeSeasonList;
-        if (rootNode.select("ul").get(0).select("li > a").size() < ANIME_SEASON_THRESHOLD) {
-            animeSeasonList = parseWithMultipleSeasonStrategy(rootNode, elements);
+        Elements divs = rootNode.select("div[style=\"display:none\"]");
+        boolean multipleSeasons = divs.size() > 1;
+        Elements topLevelIndexingAnchors = rootNode.select("ul").get(0).select("li > a");
+        if (!multipleSeasons) {
+            AnimeSeason season = parseSingleSeason(rootNode, ONE_SEASON_TEXT);
+            return Collections.singletonList(season);
         } else {
-            String id = rootNode.id();
-            id = id.replace("tabs", "tab");
-            AnimeSeason season = new AnimeSeason();
-            season.setSeasonClassified(false);
-            season.setSeasonTitle(GateApplication.getGlobalContext().getString(R.string.season_not_classified));
-            for (Element element : elements) {
+            List<AnimeSeason> seasons = new ArrayList<>();
+            for (Element seasonLink : topLevelIndexingAnchors) {
                 try {
-                    //noinspection ResultOfMethodCallIgnored
-                    Integer.parseInt(element.text());
-                } catch (NumberFormatException e) {
-                    continue;
-                }
-                String href = element.attr("href");
-                if (!TextUtils.isEmpty(href) && href.contains(id)) {
-                    AnimeSeason.PlayableAnime anime = new AnimeSeason.PlayableAnime(element.text());
-                    String episodeId = href.substring(href.indexOf("#") + 1);
-                    Element addressDiv = rootNode.getElementById(episodeId);
-                    if (addressDiv == null) {
-                        continue;
-                    }
-                    String address = addressDiv.select("[href*=\"embed.2d-gate.org\"]").get(0).attr("href");
-                    anime.setPlaybackAddress(address);
-                    season.playableAnimeList.add(anime);
+                    String href = seasonLink.attr("href");
+                    String divId = href.substring(href.indexOf("#") + 1);
+                    Element innerRootNode = rootNode.getElementById(divId).child(0);
+                    AnimeSeason season = parseSingleSeason(innerRootNode, seasonLink.text());
+                    seasons.add(season);
+                } catch (Exception e) {
+                    // ignored
                 }
             }
-            animeSeasonList = Collections.singletonList(season);
+            return seasons;
         }
-        return animeSeasonList;
     }
 
-    private static List<AnimeSeason> parseWithMultipleSeasonStrategy(Element rootNode, Elements elements) {
-        String id = rootNode.id();
-        id = id.replace("tabs", "tab");
-        List<AnimeSeason> seasonList = new ArrayList<>();
-        for (Element element : elements) {
-            String href = element.attr("href");
-            if (!TextUtils.isEmpty(href) && href.contains(id)) {
-                AnimeSeason animeSeason = new AnimeSeason();
-                animeSeason.setSeasonTitle(element.text());
-                animeSeason.setTabId(href.substring(href.indexOf(id)));
-                animeSeason.setSeasonClassified(true);
-                seasonList.add(animeSeason);
+    public static AnimeSeason parseSingleSeason(Element rootNode, String seasonTitle) {
+        Elements links = rootNode.select("ul").get(0).select("li > a");
+        AnimeSeason season = new AnimeSeason();
+        season.setSeasonTitle(seasonTitle);
+        for (Element link : links) {
+            AnimeSeason.PlayableAnime anime = new AnimeSeason.PlayableAnime(link.text());
+            String href = link.attr("href");
+            String divId = href.substring(href.indexOf("#") + 1);
+            Element linkDiv = rootNode.getElementById(divId);
+            String url;
+            try {
+                url = linkDiv.child(0).attr("href");
+            } catch (Exception e) {
+                // TODO
+                url =linkDiv.select("[href*=\"embed.2d-gate.org\"]").get(0).attr("href");
             }
+            anime.setPlaybackAddress(url);
+            season.playableAnimeList.add(anime);
         }
-        if (seasonList.size() == 0) {
-            AnimeSeason season = new AnimeSeason();
-            season.setSeasonTitle(GateApplication.getGlobalContext().getString(R.string.season_not_classified));
-            season.setSeasonClassified(false);
-            seasonList.add(season);
-        }
-
-        for (AnimeSeason season : seasonList) {
-            Element episodeDetailNode = rootNode.getElementById(season.getTabId());
-            if (episodeDetailNode == null) {
-                continue;
-            }
-            Elements episodeTitles = episodeDetailNode.select("ul > li > a");
-            if (episodeTitles == null || episodeTitles.size() == 0) {
-                Elements image = episodeDetailNode.select("a > img");
-                if (image != null && image.size() > 0) {
-                    season.coverURL = image.get(0).attr("src");
-                }
-                continue;
-            }
-            for (Element episodeTitle : episodeTitles) {
-                AnimeSeason.PlayableAnime playableAnime = new AnimeSeason.PlayableAnime(episodeTitle.text());
-                String href = episodeTitle.attr("href");
-                playableAnime.tabId = href.substring(href.indexOf("#") + 1);
-                season.playableAnimeList.add(playableAnime);
-            }
-            for (AnimeSeason.PlayableAnime playableAnime : season.playableAnimeList) {
-                Element episodeAddressNode = episodeDetailNode.getElementById(playableAnime.tabId);
-                String href = episodeAddressNode.child(0).attr("href");
-                playableAnime.setPlaybackAddress(href);
-            }
-        }
-
-        return seasonList;
+        return season;
     }
+
+
 }

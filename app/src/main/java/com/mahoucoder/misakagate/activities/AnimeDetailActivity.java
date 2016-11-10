@@ -4,18 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
-import com.mahoucoder.misakagate.adapters.EpisodeListAdapter;
+import com.mahoucoder.misakagate.adapters.AnimeSeasonAdapter;
 import com.mahoucoder.misakagate.api.GateAPI;
 import com.mahoucoder.misakagate.api.models.AnimeSeason;
 import com.mahoucoder.misakagate.api.models.Thread;
-import com.mahoucoder.misakagate.utils.GateUtils;
 import com.mahoucoder.misakagate.widgets.AnimeView;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public class AnimeDetailActivity extends BaseActivity {
     private static final String EXTRA_KEY = "EXTRA_KEY";
     private Thread mAnime;
     private RecyclerView episodeRecycler;
-    private RecyclerView.Adapter episodeAdapter;
+    private RecyclerView.Adapter adapter;
     AnimeView animeView;
     public static final int SPAN_COUNT = 4;
 
@@ -40,23 +38,6 @@ public class AnimeDetailActivity extends BaseActivity {
         bindViewWithData();
 
         fetchAdapterDataAndBindToAdapter();
-
-        GateAPI.getEpisodeStructure(mAnime.tid, new Observer<List<AnimeSeason>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(List<AnimeSeason> animeSeasons) {
-                System.out.println(animeSeasons);
-            }
-        });
     }
 
     private void initView() {
@@ -82,19 +63,22 @@ public class AnimeDetailActivity extends BaseActivity {
     }
 
     private void fetchAdapterDataAndBindToAdapter() {
-        GateAPI.getEpisodeList(mAnime.tid, new Observer<List<String>>() {
+        GateAPI.getAnimeSeasons(mAnime.tid, new Observer<List<AnimeSeason>>() {
             @Override
-            public void onNext(List<String> strings) {
-                episodeAdapter = new EpisodeListAdapter(strings);
-                episodeRecycler.setAdapter(episodeAdapter);
-                if (episodeAdapter instanceof EpisodeListAdapter) {
-                    ((EpisodeListAdapter) episodeAdapter).setData(mAnime);
-                }
+            public void onNext(List<AnimeSeason> animeSeasons) {
+                adapter = new AnimeSeasonAdapter(animeSeasons);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        episodeRecycler.setAdapter(adapter);
+                    }
+                });
             }
 
             @Override
             public void onCompleted() {
-                // do nothing
+
             }
 
             @Override
@@ -108,13 +92,12 @@ public class AnimeDetailActivity extends BaseActivity {
         episodeRecycler = (RecyclerView) findViewById(R.id.episode_list_recycler);
 
         episodeRecycler.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(AnimeDetailActivity.this, SPAN_COUNT);
 
-        episodeRecycler.setLayoutManager(gridLayoutManager);
-
-        float distanceInPx = GateUtils.dp2px(GateApplication.getGlobalContext(), 3);
-        SimpleItemDecoration simpleItemDecoration = new SimpleItemDecoration((int) distanceInPx);
-        episodeRecycler.addItemDecoration(simpleItemDecoration);
+        episodeRecycler.setLayoutManager(new LinearLayoutManager(AnimeDetailActivity.this));
+//
+//        float distanceInPx = GateUtils.dp2px(GateApplication.getGlobalContext(), 3);
+//        SimpleItemDecoration simpleItemDecoration = new SimpleItemDecoration((int) distanceInPx);
+//        episodeRecycler.addItemDecoration(simpleItemDecoration);
     }
 
     public static Intent buildLaunchIntent(Context context, Thread thread) {

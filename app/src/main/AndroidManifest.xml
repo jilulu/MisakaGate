@@ -59,7 +59,7 @@
             android:value="@string/umeng_channel" />
 
         <activity
-            android:name=".EntranceActivity"
+            android:name=".activities.EntranceActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>

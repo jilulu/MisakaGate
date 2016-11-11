@@ -40,4 +40,7 @@
     <string name="permission_request_result_thanks">"Completed! Preparing for first launch. "</string>
     <string name="fetching_data">Fetching data…</string>
     <string name="unreachable">Cannot reach 2D-Gate \nat the moment.</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search anime names</string>
+    <string name="settings">Settings</string>
 </resources>

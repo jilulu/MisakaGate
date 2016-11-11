@@ -7,39 +7,58 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
+import com.mahoucoder.misakagate.data.Animations;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.Index;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import org.jsoup.Jsoup;
 
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Thread implements Serializable {
+@Table(database = Animations.class)
+public class Thread extends BaseModel implements Serializable {
 
     @SerializedName("fid")
     @Expose
+    @Column
     public String fid;
     @SerializedName("tid")
+    @Column
     @Expose
+    @PrimaryKey
+    @Index
     public String tid;
+    @Column
     @SerializedName("subject")
     @Expose
     public String subject;
+    @Column
     @SerializedName("dateline")
     @Expose
     public String dateline;
+    @Column
     @SerializedName("lastpost")
     @Expose
     public String lastpost;
+    @Column
     @SerializedName("pic")
     @Expose
     public String pic;
+    @Column
     @SerializedName("year")
     @Expose
     public Integer year;
+    @Column
     @SerializedName("season")
     @Expose
     public String season;
+    @Column
     @SerializedName("extra")
     @Expose
     public String extra;
@@ -118,5 +137,13 @@ public class Thread implements Serializable {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.ENGLISH,
+                "{\"fid\":\"%s\",\"tid\":\"%s\",\"subject\":\"%s\",\"dateline\":\"%s\",\"lastpost\":" +
+                        "\"%s\",\"pic\":\"%s\",\"year\":\"%d\",\"season\":\"%s\",\"extra\":\"%s\"}",
+                fid, tid, subject, dateline, lastpost, pic, year, season, extra);
     }
 }

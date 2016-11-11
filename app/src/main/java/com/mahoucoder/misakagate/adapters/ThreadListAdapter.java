@@ -30,6 +30,10 @@ public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.Vi
         this.threadList = threadList;
     }
 
+    public void setData(List<Thread> threadList) {
+        this.threadList = threadList;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.anime_layout, parent, false);

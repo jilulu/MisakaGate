@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -18,11 +19,13 @@ buildscript {
     ext.rx_android_version = '1.2.1'
     ext.compat_version = '24.0.0'
     ext.jsoup_version = '1.10.1'
+    ext.dbflow_version = "4.0.0-beta1"
 }
 
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://www.jitpack.io" }
     }
 }
 

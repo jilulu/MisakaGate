@@ -8,6 +8,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.umeng.analytics.MobclickAgent;
@@ -30,6 +32,7 @@ public class GateApplication extends Application {
         configurePicasso();
         userAgent = Util.getUserAgent(this, getClass().getSimpleName());
         initStats();
+        FlowManager.init(new FlowConfig.Builder(GateApplication.this).build());
     }
 
     private void configurePicasso() {

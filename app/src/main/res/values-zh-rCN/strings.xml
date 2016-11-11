@@ -40,4 +40,7 @@
     <string name="permission_request_result_thanks">完成！正在准备首次启动……</string>
     <string name="fetching_data">加载数据中……</string>
     <string name="unreachable">目前无法访问 2D-Gate</string>
+    <string name="search_hint">搜索动漫</string>
+    <string name="search_title">搜索</string>
+    <string name="settings">设置</string>
 </resources>

@@ -53,10 +53,10 @@ public class GateParser {
             String divId = href.substring(href.indexOf("#") + 1);
             Element linkDiv = rootNode.getElementById(divId);
             String url;
-            try {
+            if (linkDiv.child(0).hasAttr("href")) {
                 url = linkDiv.child(0).attr("href");
-            } catch (Exception e) {
-                url =linkDiv.select("[href*=\"embed.2d-gate.org\"]").get(0).attr("href");
+            } else {
+                url = linkDiv.select("[href*=\"embed.2d-gate.org\"]").get(0).attr("href");
             }
             anime.setPlaybackAddress(url);
             season.playableAnimeList.add(anime);

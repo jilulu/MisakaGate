@@ -2,12 +2,10 @@ package com.mahoucoder.misakagate.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.adapters.AnimeSeasonAdapter;
@@ -27,7 +25,6 @@ public class AnimeDetailActivity extends BaseActivity {
     private RecyclerView episodeRecycler;
     private RecyclerView.Adapter adapter;
     AnimeView animeView;
-    public static final int SPAN_COUNT = 4;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +91,6 @@ public class AnimeDetailActivity extends BaseActivity {
         episodeRecycler.setHasFixedSize(true);
 
         episodeRecycler.setLayoutManager(new LinearLayoutManager(AnimeDetailActivity.this));
-//
-//        float distanceInPx = GateUtils.dp2px(GateApplication.getGlobalContext(), 3);
-//        SimpleItemDecoration simpleItemDecoration = new SimpleItemDecoration((int) distanceInPx);
-//        episodeRecycler.addItemDecoration(simpleItemDecoration);
     }
 
     public static Intent buildLaunchIntent(Context context, Thread thread) {
@@ -113,22 +106,5 @@ public class AnimeDetailActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private class SimpleItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int space;
-
-        SimpleItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.left = parent.getChildAdapterPosition(view) % SPAN_COUNT == 0 ? space : 0;
-            outRect.right = space;
-//            outRect.bottom = space;
-            outRect.top = space;
-        }
     }
 }

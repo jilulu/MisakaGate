@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:keepScreenOn="true"
-    tools:context="com.mahoucoder.misakagate.activities.PlaybackActivity">
-
+    tools:context="com.mahoucoder.misakagate.activities.GatePlaybackActivity">
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"

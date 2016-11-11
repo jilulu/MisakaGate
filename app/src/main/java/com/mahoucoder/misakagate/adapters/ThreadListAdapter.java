@@ -51,7 +51,7 @@ public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.Vi
 
         int v = (int) GateUtils.dp2px(GateApplication.getGlobalContext(), 80);
         ImageLoaderManager.getInstance().getLoader().load(
-                PicHostUtil.convert2DDelegate(thread.pic, v, v),
+                PicHostUtil.convertSmallSquare(thread.pic),
                 holder.coverImageView,
                 v, v
         );

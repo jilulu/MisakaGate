@@ -1,12 +1,13 @@
 package com.mahoucoder.misakagate.api;
 
+import android.util.Log;
+
 import com.mahoucoder.misakagate.api.models.AnimeListCache;
 import com.mahoucoder.misakagate.api.models.AnimeSeason;
 import com.mahoucoder.misakagate.api.models.ListAnimeService;
 import com.mahoucoder.misakagate.api.models.PlaybackInfo;
 import com.mahoucoder.misakagate.api.models.PlaybackInfoService;
 import com.mahoucoder.misakagate.utils.GateParser;
-import com.mahoucoder.misakagate.utils.GateUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -151,12 +152,11 @@ public class GateAPI {
         listCall.enqueue(callback);
     }
 
-    public static void getPlaybackInfo(String url, Callback<PlaybackInfo[]> callback) {
+    public static void getPlaybackInfo(String url, Callback<PlaybackInfo[]> callback) throws IllegalArgumentException {
         Pattern pattern = Pattern.compile("http://embed.2d-gate.org/json-feed/([^/]+)/\\?hash=(.+)");
         Matcher matcher = pattern.matcher(url);
         if (!matcher.matches()) {
-            GateUtils.logd("Pattern match failed for " + url);
-            return;
+            Log.e("GateAPI.getPlaybackInfo", "Pattern match failed for " + url);
         }
         Retrofit retrofit = getVideoInfoRetrofit();
         PlaybackInfoService service = retrofit.create(PlaybackInfoService.class);

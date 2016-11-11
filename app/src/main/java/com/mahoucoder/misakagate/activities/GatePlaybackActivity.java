@@ -51,10 +51,12 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
+import com.mahoucoder.misakagate.BuildConfig;
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.utils.EventLogger;
 import com.mahoucoder.misakagate.utils.TrackSelectionHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -62,6 +64,8 @@ import java.net.CookiePolicy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static android.view.View.GONE;
 
 public class GatePlaybackActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
         TrackSelector.EventListener<MappingTrackSelector.MappedTrackInfo>, PlaybackControlView.VisibilityListener {
@@ -124,6 +128,7 @@ public class GatePlaybackActivity extends Activity implements View.OnClickListen
         rootView.setOnClickListener(this);
         debugRootView = (LinearLayout) findViewById(R.id.controls_root);
         debugTextView = (TextView) findViewById(R.id.debug_text_view);
+        debugTextView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : GONE);
         retryButton = (Button) findViewById(R.id.retry_button);
         retryButton.setOnClickListener(this);
 
@@ -150,6 +155,7 @@ public class GatePlaybackActivity extends Activity implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         if ((Util.SDK_INT <= 23 || player == null)) {
             initializePlayer();
         }
@@ -158,6 +164,7 @@ public class GatePlaybackActivity extends Activity implements View.OnClickListen
     @Override
     public void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
         if (Util.SDK_INT <= 23) {
             releasePlayer();
         }
@@ -258,8 +265,10 @@ public class GatePlaybackActivity extends Activity implements View.OnClickListen
                 }
             }
             player.setPlayWhenReady(shouldAutoPlay);
-            debugViewHelper = new DebugTextViewHelper(player, debugTextView);
-            debugViewHelper.start();
+            if (BuildConfig.DEBUG) {
+                debugViewHelper = new DebugTextViewHelper(player, debugTextView);
+                debugViewHelper.start();
+            }
             playerNeedsSource = true;
         }
         if (playerNeedsSource) {
@@ -333,8 +342,10 @@ public class GatePlaybackActivity extends Activity implements View.OnClickListen
 
     private void releasePlayer() {
         if (player != null) {
-            debugViewHelper.stop();
-            debugViewHelper = null;
+            if (BuildConfig.DEBUG) {
+                debugViewHelper.stop();
+                debugViewHelper = null;
+            }
             shouldAutoPlay = player.getPlayWhenReady();
             playerWindow = player.getCurrentWindowIndex();
             playerPosition = C.TIME_UNSET;

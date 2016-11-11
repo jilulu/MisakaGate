@@ -25,9 +25,6 @@
             android:parentActivityName=".activities.AnimeListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PlaybackActivity"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".activities.GatePlaybackActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTop"

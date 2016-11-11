@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -13,4 +13,14 @@
         android:scrollbars="vertical"
         tools:listitem="@layout/anime_layout"
         />
-</RelativeLayout>
+
+    <include
+        android:id="@+id/anime_listc_connection_indicator"
+        layout="@layout/include_fetching_data_layout"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/anime_list_offline_indicator"
+        layout="@layout/include_no_connection_layout"
+        android:visibility="gone"/>
+</FrameLayout>

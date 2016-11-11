@@ -132,10 +132,11 @@ public class GateAPI {
                     Document dom = Jsoup.parse(response.body().byteStream(), "utf-8", url);
                     Element interestingNode = dom.select("div[style=\"display:none\"]").get(0);
                     List<AnimeSeason> animeSeasons = GateParser.parseNodeIntoAnimeSeasonList(interestingNode);
-                    observer.onNext(animeSeasons);
+                    subscriber.onNext(animeSeasons);
                 } catch (IOException e) {
                     subscriber.onError(e);
                 }
+
             }
         });
 

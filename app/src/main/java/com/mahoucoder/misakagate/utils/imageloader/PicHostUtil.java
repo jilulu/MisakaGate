@@ -1,9 +1,9 @@
 package com.mahoucoder.misakagate.utils.imageloader;
 
 import android.net.Uri;
-import android.util.Log;
 
-import java.util.Locale;
+import com.mahoucoder.misakagate.utils.GateUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +30,7 @@ public class PicHostUtil {
             String group = matcher.group(1);
             return path.replace(group, group + format);
         }
-        Log.e(PicHostUtil.class.getSimpleName(), "Conversion failed for " + path);
+        GateUtils.logd(PicHostUtil.class.getSimpleName(), "Conversion failed for " + path);
         return path;
     }
 

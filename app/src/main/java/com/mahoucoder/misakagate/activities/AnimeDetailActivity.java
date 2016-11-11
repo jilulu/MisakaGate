@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.adapters.AnimeSeasonAdapter;
@@ -25,6 +27,7 @@ public class AnimeDetailActivity extends BaseActivity {
     private RecyclerView episodeRecycler;
     private RecyclerView.Adapter adapter;
     AnimeView animeView;
+    private ProgressBar progressBar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,7 @@ public class AnimeDetailActivity extends BaseActivity {
         } else if (getActionBar() != null) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        progressBar = (ProgressBar) findViewById(R.id.episode_list_progress_bar);
     }
 
     private void bindViewWithData() {
@@ -64,13 +68,8 @@ public class AnimeDetailActivity extends BaseActivity {
             @Override
             public void onNext(List<AnimeSeason> animeSeasons) {
                 adapter = new AnimeSeasonAdapter(animeSeasons);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        episodeRecycler.setAdapter(adapter);
-                    }
-                });
+                episodeRecycler.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

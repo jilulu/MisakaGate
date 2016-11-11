@@ -38,4 +38,6 @@
     <string name="issue_explanation">電話：用於問題報告。\n存儲：用於保存影片。</string>
     <string name="allow_permissions">准予權限</string>
     <string name="permission_request_result_thanks">完成！正在準備首次啓動……</string>
+    <string name="fetching_data">加載數據中……</string>
+    <string name="unreachable">目前無法訪問 2D-Gate</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.mahoucoder.misakagate.utils;
 
+import com.mahoucoder.misakagate.GateApplication;
+import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.api.models.AnimeSeason;
 
 import org.jsoup.nodes.Element;
@@ -15,8 +17,7 @@ import java.util.List;
 
 public class GateParser {
 
-    // TODO
-    public static final String ONE_SEASON_TEXT = "共一季";
+    public static final String ONE_SEASON_TEXT = GateApplication.getGlobalContext().getString(R.string.one_season_in_total);
 
     public static List<AnimeSeason> parseNodeIntoAnimeSeasonList(Element rootNode) {
         Elements divs = rootNode.select("div[style=\"display:none\"]");
@@ -55,7 +56,6 @@ public class GateParser {
             try {
                 url = linkDiv.child(0).attr("href");
             } catch (Exception e) {
-                // TODO
                 url =linkDiv.select("[href*=\"embed.2d-gate.org\"]").get(0).attr("href");
             }
             anime.setPlaybackAddress(url);

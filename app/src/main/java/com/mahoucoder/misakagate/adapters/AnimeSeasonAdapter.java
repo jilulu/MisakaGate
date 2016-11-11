@@ -1,5 +1,6 @@
 package com.mahoucoder.misakagate.adapters;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -57,7 +58,7 @@ public class AnimeSeasonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else {
             TextView textView = new TextView(parent.getContext());
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-            textView.setTextColor(GateApplication.getGlobalContext().getResources().getColor(R.color.textSecondary));
+            textView.setTextColor(ContextCompat.getColor(GateApplication.getGlobalContext(), R.color.textSecondary));
             int padding = (int) GateUtils.dp2px(GateApplication.getGlobalContext(), 10);
             textView.setPadding(padding * 2, padding, padding, padding);
             return new TextViewHolder(textView);

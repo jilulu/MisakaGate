@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -28,6 +29,12 @@ public class GateUtils {
     public static float dp2px(Context context, float dpValue) {
         Resources r = context.getResources();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, r.getDisplayMetrics());
+    }
+
+    public static float px2dp(Context context, float pxValue) {
+        Resources r = context.getResources();
+        DisplayMetrics metrics = r.getDisplayMetrics();
+        return pxValue / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
     public static boolean isNetworkAvailable(Context context) {

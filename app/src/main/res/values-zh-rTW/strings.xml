@@ -31,7 +31,7 @@
     <string name="anime_cover_description">動漫封面</string>
     <string name="middle_dot">" · "</string>
     <string name="choose_resolution">選擇清晰度</string>
-    <string name="season_not_classified">共一季</string>
+    <string name="one_season_in_total">共一季</string>
     <string name="request_permission">爲了正常使用，需要以下權限。</string>
     <string name="phone">電話</string>
     <string name="storage">存儲</string>

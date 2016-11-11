@@ -1,5 +1,6 @@
 package com.mahoucoder.misakagate.utils.imageloader;
 
+import android.net.Uri;
 import android.util.Log;
 
 import java.util.regex.Matcher;
@@ -18,6 +19,9 @@ public class PicHostUtil {
     private static final char HUGE_THUMBNAIL = 'h'; // (1024×1024)
 
     private static Pattern pattern = Pattern.compile("(?:https?://)?(?:i\\.)?imgur\\.com/(\\w+)\\.(?:jpg|jpeg|png|gif|apng|JPG|JPEG|PNG|GIF|APNG).*");
+    public static final String GATE_THUMB_BASE_URL = "thumbnail.2d-gate.org";
+    public static final String GATE_THUMB_SCHEME = "https";
+    public static final String GATE_THUMB_QUERY_SRC = "src";
 
     private static String convertImgur(String path, char format) {
         Matcher matcher = pattern.matcher(path);
@@ -27,6 +31,16 @@ public class PicHostUtil {
         }
         Log.e(PicHostUtil.class.getSimpleName(), "Conversion failed for " + path);
         return path;
+    }
+
+    public static String convert2DDelegate(String path, int width, int height) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(GATE_THUMB_SCHEME)
+                .authority(GATE_THUMB_BASE_URL)
+                .appendQueryParameter(GATE_THUMB_QUERY_SRC, path)
+                .appendQueryParameter("w", Integer.toString(width))
+                .appendQueryParameter("h", Integer.toString(height));
+        return builder.build().toString();
     }
 
     public static String convertSmallSquare(String path) {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -49,6 +50,9 @@ public class AnimeDetailActivity extends BaseActivity {
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
         progressBar = (ProgressBar) findViewById(R.id.episode_list_progress_bar);
+        Toolbar actionBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(actionBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void bindViewWithData() {
@@ -56,8 +60,6 @@ public class AnimeDetailActivity extends BaseActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(mAnime.getTitle());
-        } else if (getActionBar() != null) {
-            getActionBar().setTitle(mAnime.getTitle());
         }
 
         animeView.bind(mAnime);

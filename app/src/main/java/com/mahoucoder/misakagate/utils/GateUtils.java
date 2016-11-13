@@ -14,8 +14,10 @@ import android.util.TypedValue;
 
 import com.mahoucoder.misakagate.BuildConfig;
 import com.mahoucoder.misakagate.GateApplication;
+import com.mahoucoder.misakagate.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by jamesji on 29/10/2016.
@@ -62,6 +64,17 @@ public class GateUtils {
             unit = "d";
         }
         return abs + unit;
+    }
+
+    public static String calculateTimeDiffInDays(long time) {
+        long abs = Math.abs(time - System.currentTimeMillis() / 1000L);
+        abs /= (3600L * 24L);
+        String s = abs == 0L ? GateApplication.getGlobalContext().getString(R.string.today) :
+                String.format(Locale.ENGLISH, "%d%s", abs, GateApplication.getGlobalContext().getString(R.string.days_ago));
+        if (abs == 1) {
+            s = s.replace("s", "");
+        }
+        return s;
     }
 
     public static int ordinalIndexOf(String str, String s, int n) {

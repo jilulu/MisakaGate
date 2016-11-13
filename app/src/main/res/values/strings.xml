@@ -51,4 +51,7 @@
     <string name="anime_subscription_hint">No subscribed animes. \nSubscribe one to view it here.</string>
     <string name="favorite">Favorite</string>
     <string name="unfavorite">Unfavorite</string>
+    <string name="days_ago">" days ago"</string>
+    <string name="today">&#60; 1 day ago</string>
+    <string name="some_day">Some day</string>
 </resources>

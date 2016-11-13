@@ -51,4 +51,7 @@
     <string name="refresh">刷新</string>
     <string name="text_music">音乐</string>
     <string name="unfavorite">取消</string>
+    <string name="days_ago">天之前</string>
+    <string name="some_day">某天</string>
+    <string name="today">&#60; 1天之前</string>
 </resources>

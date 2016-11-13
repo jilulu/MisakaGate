@@ -117,7 +117,7 @@ public class AnimeListFragment extends Fragment implements SearchView.OnQueryTex
             public void call(List<Thread> threads) {
                 animeListAdapter = new ThreadListAdapter(threads);
                 animeListRecyclerView.setAdapter(animeListAdapter);
-                animeListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+                animeListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), threads));
                 fetchingDataIndicator.setVisibility(GONE);
                 connectionOfflineIndicator.setVisibility(GONE);
             }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/bottomItemRecent"
+        icon="@drawable/ic_access_time_white"
+        title="@string/anime_list"/>
+    <tab
+        id="@+id/bottomItemSubscription"
+        icon="@drawable/ic_favorite_white"
+        title="@string/favorites" />
+</tabs>

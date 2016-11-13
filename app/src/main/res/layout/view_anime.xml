@@ -1,65 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/anime_root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <ImageView
-        android:contentDescription="@string/anime_cover_description"
-        android:id="@+id/anime_cover_imageview"
-        android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="2"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:id="@+id/anime_info_group"
+        android:background="?attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/anime_title_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:ellipsize="marquee"
-            android:maxLines="1"
-            android:textColor="@color/textPrimary"
-            android:textSize="@dimen/anime_title_text_size"
-            tools:text="LoveLive! Sunshine!!" />
+        <ImageView
+            android:id="@+id/anime_cover_imageview"
+            android:layout_width="0dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/anime_cover_description"
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/anime_subtitle_group_textview"
-                style="@style/AnimeAttrText"
-                tools:text="字幕組：KNA" />
+                android:id="@+id/anime_title_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/anime_title_text_size"
+                tools:text="LoveLive! Sunshine!!"/>
 
-            <TextView
-                android:id="@+id/anime_resolution_textview"
-                style="@style/AnimeAttrText"
-                tools:text="解析度：1280x720" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/anime_year_textview"
-                style="@style/AnimeAttrText"
-                tools:text="年份季度：2016" />
+                <TextView
+                    android:id="@+id/anime_subtitle1"
+                    style="@style/AnimeAttrText"
+                    tools:text="字幕組：KNA"/>
 
-            <TextView
-                style="@style/AnimeAttrText"
-                android:id="@+id/anime_charset_textview"
-                tools:text="语言：繁" />
+                <TextView
+                    android:id="@+id/anime_resolution_textview"
+                    style="@style/AnimeAttrText"
+                    tools:text="解析度：1280x720"/>
+
+                <TextView
+                    android:id="@+id/anime_subtitle2"
+                    style="@style/AnimeAttrText"
+                    tools:text="年份季度：2016"/>
+
+                <TextView
+                    android:id="@+id/anime_charset_textview"
+                    style="@style/AnimeAttrText"
+                    tools:text="语言：繁"/>
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
 
-</merge>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:background="?attr/selectableItemBackground"
+        android:id="@+id/anime_favorite_group">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/anime_favorite_group_icon"
+            android:src="@drawable/ic_not_favorited_red"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/favorite"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:id="@+id/anime_favorite_group_text"/>
+    </LinearLayout>
+
+</LinearLayout>

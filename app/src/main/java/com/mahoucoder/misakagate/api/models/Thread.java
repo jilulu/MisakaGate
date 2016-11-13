@@ -21,46 +21,27 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("WeakerAccess")
 @Table(database = Animations.class)
 public class Thread extends BaseModel implements Serializable {
 
-    @SerializedName("fid")
-    @Expose
-    @Column
+    @SerializedName("fid") @Expose @Column
     public String fid;
-    @SerializedName("tid")
-    @Column
-    @Expose
-    @PrimaryKey
-    @Index
+    @SerializedName("tid") @Column @Expose @PrimaryKey @Index
     public String tid;
-    @Column
-    @SerializedName("subject")
-    @Expose
+    @Column @SerializedName("subject") @Expose
     public String subject;
-    @Column
-    @SerializedName("dateline")
-    @Expose
+    @Column @SerializedName("dateline") @Expose
     public String dateline;
-    @Column
-    @SerializedName("lastpost")
-    @Expose
+    @Column @SerializedName("lastpost") @Expose
     public String lastpost;
-    @Column
-    @SerializedName("pic")
-    @Expose
+    @Column @SerializedName("pic") @Expose
     public String pic;
-    @Column
-    @SerializedName("year")
-    @Expose
+    @Column @SerializedName("year") @Expose
     public Integer year;
-    @Column
-    @SerializedName("season")
-    @Expose
+    @Column @SerializedName("season") @Expose
     public String season;
-    @Column
-    @SerializedName("extra")
-    @Expose
+    @Column @SerializedName("extra") @Expose
     public String extra;
 
     public static final Pattern SUBJECT_MATCHER = Pattern.compile("([^\\[]+)(?:\\[([^\\]]+)\\])?(?:\\[([^\\]]+)\\])?.*");

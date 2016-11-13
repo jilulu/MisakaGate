@@ -1,8 +1,6 @@
-package com.mahoucoder.misakagate.utils.imageloader;
+package com.mahoucoder.misakagate.utils;
 
 import android.net.Uri;
-
-import com.mahoucoder.misakagate.utils.GateUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

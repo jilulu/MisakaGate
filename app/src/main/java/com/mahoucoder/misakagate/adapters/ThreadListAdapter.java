@@ -12,9 +12,8 @@ import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.activities.AnimeDetailActivity;
 import com.mahoucoder.misakagate.api.models.Thread;
-import com.mahoucoder.misakagate.utils.GateUtils;
-import com.mahoucoder.misakagate.utils.imageloader.ImageLoaderManager;
-import com.mahoucoder.misakagate.utils.imageloader.PicHostUtil;
+import com.mahoucoder.misakagate.utils.PicHostUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,22 +42,22 @@ public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Thread thread = threadList.get(position);
         holder.titleText.setText(thread.getTitle());
-        holder.subtitleGroupText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.subtitle_group), thread.getSubtitleGroup()));
-        holder.resText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.resolution), thread.getResolution()));
-        holder.yearText.setText(String.format("%s", thread.getYearAndSeason()));
-        holder.charsetText.setText(String.format("%s%s", GateApplication.getGlobalContext().getString(R.string.language), thread.getSubtitleLanguage()));
+        holder.subtitle1.setText(String.format("%s%s%s%s%s", GateApplication.getGlobalContext().getString(R.string.subtitle_group),
+                thread.getSubtitleGroup(), GateApplication.getGlobalContext().getString(R.string.middle_dot),
+                GateApplication.getGlobalContext().getString(R.string.resolution), thread.getResolution()));
+        holder.subtitle2.setText(String.format("%s%s%s%s", thread.getYearAndSeason(),GateApplication.getGlobalContext().getString(R.string.middle_dot),
+                GateApplication.getGlobalContext().getString(R.string.language), thread.getSubtitleLanguage()));
 
         holder.rootView.setTag(thread);
 
-        int v = (int) GateUtils.dp2px(GateApplication.getGlobalContext(), 80);
-        ImageLoaderManager.getInstance().getLoader().load(
-                PicHostUtil.convertSmallSquare(thread.pic),
-                holder.coverImageView,
-                v, v
-        );
+        Picasso.with(GateApplication.getGlobalContext())
+                .load(PicHostUtil.convertSmallSquare(thread.pic))
+                .placeholder(R.drawable.img_downloading)
+                .error(R.drawable.img_offline)
+                .into(holder.coverImageView);
     }
 
     @Override
@@ -76,16 +75,16 @@ public class ThreadListAdapter extends RecyclerView.Adapter<ThreadListAdapter.Vi
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         ViewGroup rootView;
-        TextView titleText, subtitleGroupText, resText, yearText, charsetText;
+        TextView titleText, subtitle1, resText, subtitle2, charsetText;
         ImageView coverImageView;
 
         ViewHolder(ViewGroup itemView) {
             super(itemView);
             rootView = (ViewGroup) itemView.findViewById(R.id.anime_root_view);
             titleText = (TextView) itemView.findViewById(R.id.anime_title_textview);
-            subtitleGroupText = (TextView) itemView.findViewById(R.id.anime_subtitle_group_textview);
+            subtitle1 = (TextView) itemView.findViewById(R.id.anime_subtitle1);
             resText = (TextView) itemView.findViewById(R.id.anime_resolution_textview);
-            yearText = (TextView) itemView.findViewById(R.id.anime_year_textview);
+            subtitle2 = (TextView) itemView.findViewById(R.id.anime_subtitle2);
             charsetText = (TextView) itemView.findViewById(R.id.anime_charset_textview);
             coverImageView = (ImageView) itemView.findViewById(R.id.anime_cover_imageview);
         }

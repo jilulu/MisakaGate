@@ -67,7 +67,7 @@ public class EntranceActivity extends AppCompatActivity implements RequestPermis
             switch (msg.what) {
                 case GOTO_ANIME_LIST_AND_FINISH:
                     if (activityRef.get() != null) {
-                        Intent intent = new Intent(GateApplication.getGlobalContext(), AnimeListActivity.class);
+                        Intent intent = new Intent(GateApplication.getGlobalContext(), MainActivity.class);
                         activityRef.get().startActivity(intent);
                         activityRef.get().finish();
                     }

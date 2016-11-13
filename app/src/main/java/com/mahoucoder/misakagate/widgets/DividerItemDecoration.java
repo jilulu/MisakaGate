@@ -19,6 +19,9 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 
     public DividerItemDecoration(Context context) {
+        if (context == null) {
+            return;
+        }
         final TypedArray styledAttrs = context.obtainStyledAttributes(ATTRS);
         mDivider = styledAttrs.getDrawable(0);
         styledAttrs.recycle();

@@ -10,8 +10,6 @@ import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.squareup.picasso.OkHttpDownloader;
-import com.squareup.picasso.Picasso;
 import com.umeng.analytics.MobclickAgent;
 
 import java.lang.ref.WeakReference;
@@ -29,19 +27,9 @@ public class GateApplication extends Application {
         super.onCreate();
         appRef = new WeakReference<Application>(GateApplication.this);
 
-        configurePicasso();
         userAgent = Util.getUserAgent(this, getClass().getSimpleName());
         initStats();
         FlowManager.init(new FlowConfig.Builder(GateApplication.this).build());
-    }
-
-    private void configurePicasso() {
-        Picasso.Builder builder = new Picasso.Builder(GateApplication.this);
-        builder.downloader(new OkHttpDownloader(GateApplication.this, Integer.MAX_VALUE));
-        Picasso build = builder.build();
-        build.setIndicatorsEnabled(BuildConfig.DEBUG);
-        build.setLoggingEnabled(false);
-        Picasso.setSingletonInstance(build);
     }
 
     private void initStats() {

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 24
@@ -100,9 +99,13 @@ dependencies {
     // Umeng stats
     compile 'com.umeng.analytics:analytics:latest.integration'
 
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    // DBFlow
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
+    // BottomBar navigation
+    compile 'com.roughike:bottom-bar:2.0.2'
 
     testCompile 'junit:junit:4.12'
 }

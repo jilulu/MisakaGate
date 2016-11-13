@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dp"
-    android:id="@+id/anime_root_view">
+    android:id="@+id/anime_root_view"
+    android:background="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/anime_cover_imageview"
@@ -13,7 +14,8 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_margin="5dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        tools:src="@drawable/placeholder"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,69 +34,25 @@
             android:textSize="22sp"
             tools:text="LoveLive! Sunshine!!" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/anime_subtitle1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp"
+            tools:text="字幕組：KNA · 分辨率：1920x1080" />
 
-            <TextView
-                android:id="@+id/anime_subtitle_group_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                tools:text="字幕組：KNA" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/middle_dot" />
-
-            <TextView
-                android:id="@+id/anime_resolution_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                tools:text="解析度：1280x720" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/anime_subtitle2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/anime_year_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                tools:text="2016 年" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/middle_dot" />
-
-            <TextView
-                android:id="@+id/anime_charset_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                tools:text="语言：繁" />
-
-        </LinearLayout>
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp"
+            tools:text="2016 年 · 语言：简体" />
 
     </LinearLayout>
 

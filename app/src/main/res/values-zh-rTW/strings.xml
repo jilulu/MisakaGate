@@ -43,4 +43,12 @@
     <string name="search_hint">搜索動漫</string>
     <string name="search_title">搜索</string>
     <string name="settings">設置</string>
+    <string name="anime_list">動漫列表</string>
+    <string name="anime_subscription_hint">沒有訂閱的動漫，在動漫列表中給動漫加♥來在這裏查看。</string>
+    <string name="favorite">喜歡</string>
+    <string name="favorites">收藏</string>
+    <string name="recently_updated">最近更新</string>
+    <string name="refresh">刷新</string>
+    <string name="text_music">音樂</string>
+    <string name="unfavorite">取消</string>
 </resources>

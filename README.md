@@ -1,2 +1,3 @@
-### WIP
-[https://github.com/jilulu/MisakaGate/releases/latest](Get latest build)
+### 2D-Gate Unofficial Client
+
+[Get latest build](https://github.com/jilulu/MisakaGate/releases/latest)

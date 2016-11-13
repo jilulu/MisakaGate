@@ -1,5 +1,6 @@
-package com.mahoucoder.misakagate.data;
+package com.mahoucoder.misakagate.api.models;
 
+import com.mahoucoder.misakagate.data.Animations;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.Index;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;

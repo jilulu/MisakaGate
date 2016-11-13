@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mahoucoder.misakagate.api.models.Favorite;
+import com.mahoucoder.misakagate.api.models.Favorite_Table;
 import com.mahoucoder.misakagate.api.models.Thread;
 import com.mahoucoder.misakagate.api.models.Thread_Table;
-import com.mahoucoder.misakagate.data.Favorite;
-import com.mahoucoder.misakagate.data.Favorite_Table;
 import com.mahoucoder.misakagate.widgets.AnimeView;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -63,6 +63,7 @@ public class FavoriteAnimeAdapter extends RecyclerView.Adapter<FavoriteAnimeAdap
 
     class ViewHolder extends RecyclerView.ViewHolder {
         AnimeView animeView;
+
         ViewHolder(View itemView) {
             super(itemView);
             if (itemView instanceof ViewGroup) {

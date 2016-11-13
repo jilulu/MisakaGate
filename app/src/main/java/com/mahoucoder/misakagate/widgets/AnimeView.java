@@ -17,9 +17,9 @@ import android.widget.TextView;
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.activities.AnimeDetailActivity;
+import com.mahoucoder.misakagate.api.models.Favorite;
+import com.mahoucoder.misakagate.api.models.Favorite_Table;
 import com.mahoucoder.misakagate.api.models.Thread;
-import com.mahoucoder.misakagate.data.Favorite;
-import com.mahoucoder.misakagate.data.Favorite_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.squareup.picasso.Picasso;
 

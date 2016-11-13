@@ -28,15 +28,20 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private static final int mTitleHeight = (int) GateUtils.dp2px(GateApplication.getGlobalContext(), 30);
     private static int COLOR_TITLE_BG = Color.parseColor("#FFDFDFDF");
     private static int COLOR_TITLE_FONT = Color.parseColor("#FF000000");
+    private static int COLOR_DIVIDER = Color.parseColor("#FFD8D8D8");
 
     public DividerItemDecoration(Context context, List<Thread> datas) {
         super();
         mData = datas;
         mPaint = new Paint();
         mBounds = new Rect();
-        int titleFontSize = (int) GateUtils.dp2px(GateApplication.getGlobalContext(), 18);
+        int titleFontSize = (int) GateUtils.dp2px(GateApplication.getGlobalContext(), 16);
         mPaint.setTextSize(titleFontSize);
         mPaint.setAntiAlias(true);
+    }
+
+    public void setData(List<Thread> data) {
+        this.mData = data;
     }
 
     @Override
@@ -87,6 +92,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
                     drawTitleArea(c, left, right, child, params, position, tag);
                 }
             }
+            mPaint.setColor(COLOR_DIVIDER);
+            c.drawLine(left, child.getBottom(), right, child.getBottom(), mPaint);
         }
     }
 

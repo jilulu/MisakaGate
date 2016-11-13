@@ -54,6 +54,7 @@ public class AnimeListFragment extends Fragment implements SearchView.OnQueryTex
     private RecyclerView.Adapter animeListAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private View fetchingDataIndicator, connectionOfflineIndicator;
+    private DividerItemDecoration decor;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,9 +116,19 @@ public class AnimeListFragment extends Fragment implements SearchView.OnQueryTex
         }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List<Thread>>() {
             @Override
             public void call(List<Thread> threads) {
-                animeListAdapter = new ThreadListAdapter(threads);
+                if (animeListAdapter == null) {
+                    animeListAdapter = new ThreadListAdapter(threads);
+                }
                 animeListRecyclerView.setAdapter(animeListAdapter);
-                animeListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), threads));
+
+                // RecyclerView seems to remove item decorations once the fragment is detached
+                if (decor != null) {
+                    animeListRecyclerView.removeItemDecoration(decor);
+                }
+                decor = new DividerItemDecoration(getContext(), threads);
+
+                animeListRecyclerView.addItemDecoration(decor);
+                animeListRecyclerView.setVisibility(VISIBLE);
                 fetchingDataIndicator.setVisibility(GONE);
                 connectionOfflineIndicator.setVisibility(GONE);
             }
@@ -148,6 +159,7 @@ public class AnimeListFragment extends Fragment implements SearchView.OnQueryTex
             @Override
             public void call(List<Thread> threads) {
                 if (animeListAdapter != null && animeListAdapter instanceof ThreadListAdapter) {
+                    decor.setData(threads);
                     ((ThreadListAdapter) animeListAdapter).setData(threads);
                     animeListAdapter.notifyDataSetChanged();
                 }
@@ -170,6 +182,7 @@ public class AnimeListFragment extends Fragment implements SearchView.OnQueryTex
         if (itemId == R.id.action_refresh) {
             fetchingDataIndicator.setVisibility(VISIBLE);
             connectionOfflineIndicator.setVisibility(GONE);
+            animeListRecyclerView.setVisibility(View.INVISIBLE);
             fetchAdapterDataAndBindToAdapter();
             return true;
         }

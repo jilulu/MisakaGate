@@ -8,4 +8,8 @@
         id="@+id/bottomItemSubscription"
         icon="@drawable/ic_favorite_white"
         title="@string/favorites" />
+    <tab
+        id="@+id/bottomItemPreferences"
+        icon="@drawable/ic_settings"
+        title="@string/settings" />
 </tabs>

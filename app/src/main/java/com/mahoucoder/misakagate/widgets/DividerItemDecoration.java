@@ -100,7 +100,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         int firstVisibleItemPosition = ((LinearLayoutManager) (parent.getLayoutManager())).findFirstVisibleItemPosition();
-
+        if (firstVisibleItemPosition < 0) return;
         String tag = getTimeDiff(mData.get(firstVisibleItemPosition).lastpost);
         View child = parent.findViewHolderForLayoutPosition(firstVisibleItemPosition).itemView;
         mPaint.setColor(COLOR_TITLE_BG);

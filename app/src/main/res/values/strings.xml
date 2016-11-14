@@ -54,4 +54,14 @@
     <string name="days_ago">" days ago"</string>
     <string name="today">&#60; 1 day ago</string>
     <string name="some_day">Some day</string>
+    <string name="general">General</string>
+    <string name="new_version_found">New version found</string>
+    <string name="new_version_message">"A new version is found: "</string>
+    <string name="new_version_another_message">", your version is "</string>
+    <string name="new_version_yet_another_message">". Would you like to download? "</string>
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+    <string name="checking_for_updates">Checking for updates</string>
+    <string name="please_wait">"Please wait… "</string>
+    <string name="latest_build">"This is already the latest build. "</string>
 </resources>

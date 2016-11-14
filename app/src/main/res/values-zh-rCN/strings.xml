@@ -54,4 +54,14 @@
     <string name="days_ago">天之前</string>
     <string name="some_day">某天</string>
     <string name="today">&#60; 1天之前</string>
+    <string name="general">通用</string>
+    <string name="cancel">取消</string>
+    <string name="checking_for_updates">正在检查更新</string>
+    <string name="download">下载</string>
+    <string name="new_version_another_message">"，目前版本是 "</string>
+    <string name="new_version_found">发现新版本</string>
+    <string name="new_version_message">"发现了新版本： "</string>
+    <string name="new_version_yet_another_message">。要下载吗？</string>
+    <string name="please_wait">请稍等……</string>
+    <string name="latest_build">已是最新版本</string>
 </resources>

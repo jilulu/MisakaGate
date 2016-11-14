@@ -13,6 +13,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     private Fragment animeListFragment, favoriteAnimeFragment;
+    private android.app.Fragment prefFragment;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +34,18 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             case R.id.bottomItemSubscription:
                 replaceFavoriteFragment();
                 break;
-
+            case R.id.bottomItemPreferences:
+                replacePrefFragment();
+                break;
         }
     }
 
     private void replaceListFragment() {
         if (animeListFragment == null) {
             animeListFragment = new AnimeListFragment();
+        }
+        if (prefFragment != null && prefFragment.isAdded()) {
+            getFragmentManager().beginTransaction().remove(prefFragment).commitAllowingStateLoss();
         }
         if (!animeListFragment.isAdded()) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -52,9 +58,32 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         if (favoriteAnimeFragment == null) {
             favoriteAnimeFragment = new FavoriteAnimeFragment();
         }
+        if (prefFragment != null && prefFragment.isAdded()) {
+            getFragmentManager().beginTransaction().remove(prefFragment).commitAllowingStateLoss();
+        }
         if (!favoriteAnimeFragment.isAdded()) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, favoriteAnimeFragment);
+            fragmentTransaction.commitAllowingStateLoss();
+        }
+    }
+
+    private void replacePrefFragment() {
+        if (prefFragment == null) {
+            prefFragment = new PrefsFragment();
+        }
+        if (!prefFragment.isAdded()) {
+            FragmentTransaction preTransaction = getSupportFragmentManager().beginTransaction();
+            if (animeListFragment != null && animeListFragment.isAdded()) {
+                preTransaction.remove(animeListFragment);
+            }
+            if (favoriteAnimeFragment != null && favoriteAnimeFragment.isAdded()) {
+                preTransaction.remove(favoriteAnimeFragment);
+            }
+            preTransaction.commitAllowingStateLoss();
+
+            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, prefFragment);
             fragmentTransaction.commitAllowingStateLoss();
         }
     }

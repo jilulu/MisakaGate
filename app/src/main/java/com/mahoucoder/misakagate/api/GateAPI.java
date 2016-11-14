@@ -2,6 +2,7 @@ package com.mahoucoder.misakagate.api;
 
 import android.util.Log;
 
+import com.mahoucoder.misakagate.BuildConfig;
 import com.mahoucoder.misakagate.api.models.AnimeListCache;
 import com.mahoucoder.misakagate.api.models.AnimeSeason;
 import com.mahoucoder.misakagate.api.models.ListAnimeService;
@@ -94,5 +95,47 @@ public class GateAPI {
         PlaybackInfoService service = retrofit.create(PlaybackInfoService.class);
         Call<PlaybackInfo[]> infoCall = service.getPlayBackInfo(matcher.group(1), matcher.group(2));
         infoCall.enqueue(callback);
+    }
+
+    public static void getNewestVersion(Observer<String> observer) {
+        final String RELEASE_PAGE_URL = "https://github.com/jilulu/MisakaGate/releases/latest";
+        final Request request = new Request.Builder().url(RELEASE_PAGE_URL).build();
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                Response response = null;
+                try {
+                    // Get GitHub release page DOM and let Jsoup parse it
+                    response = getOKHTTP().newCall(request).execute();
+                    Document dom = Jsoup.parse(response.body().byteStream(), "utf-8", RELEASE_PAGE_URL);
+                    // Get the title
+                    String title = dom.head().getElementsByTag("title").text();
+                    // Get the version name of the latest build using specific text locations, without the 'v'
+                    String version = title.substring(title.indexOf("v") + 1);
+                    version = version.substring(0, version.indexOf(" "));
+                    // Get current version name, without the 'v'
+                    String currentVersion = BuildConfig.VERSION_NAME.substring(BuildConfig.VERSION_NAME.indexOf("v") + 1);
+                    // Split both version names into parts, divided by spaces
+                    String[] versionParts = version.split("\\.");
+                    String[] currentVersionParts = currentVersion.split("\\.");
+                    // Compare version name parts
+                    for (int i = 0; i < Math.min(versionParts.length, currentVersionParts.length); i++) {
+                        if (Integer.parseInt(versionParts[i]) > Integer.parseInt(currentVersionParts[i])) {
+                            subscriber.onNext(String.format("https://github.com/jilulu/MisakaGate/releases/download/v%s/app-release.apk", version));
+                            return;
+                        } else if (Integer.parseInt(versionParts[i]) < Integer.parseInt(currentVersionParts[i])) {
+                            break;
+                        }
+                    }
+                    subscriber.onNext("");
+                } catch (IOException e) {
+                    subscriber.onError(e);
+                } finally {
+                    if (response != null) {
+                        response.close();
+                    }
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
     }
 }

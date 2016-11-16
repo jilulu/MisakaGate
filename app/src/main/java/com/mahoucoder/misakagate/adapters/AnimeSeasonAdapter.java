@@ -29,9 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observer;
 
 /**
  * Created by jamesji on 11/11/2016.
@@ -80,18 +78,29 @@ public class AnimeSeasonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         GateApplication.getGlobalContext().getString(R.string.loading),
                         GateApplication.getGlobalContext().getString(R.string.loading_res_list));
 
-            GateAPI.getPlaybackInfo(url, new Callback<PlaybackInfo[]>() {
+            GateAPI.getPlaybackInfo(url, new Observer<List<PlaybackInfo>>() {
                 @Override
-                public void onResponse(Call<PlaybackInfo[]> call, Response<PlaybackInfo[]> response) {
-                    PlaybackInfo[] body = response.body();
+                public void onCompleted() {
 
-                    final List<PlaybackSource> sources = body[0].sources;
+                }
 
+                @Override
+                public void onError(Throwable e) {
+                    if (e instanceof IllegalArgumentException) {
+                        Toast.makeText(GateApplication.getGlobalContext(), R.string.broken_link, Toast.LENGTH_SHORT).show();
+                    }
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onNext(List<PlaybackInfo> playbackInfos) {
+                    final List<PlaybackSource> sources = playbackInfos.get(0).sources;
                     CharSequence[] titles = new String[sources.size()];
                     for (int i = 0; i < sources.size(); i++) {
                         titles[i] = sources.get(i).label;
                     }
-
                     ChooseResolutionDialogFragment.ChooseResolutionDialogClickListener listener = new ChooseResolutionDialogFragment.ChooseResolutionDialogClickListener() {
                         public void itemClicked(int index) {
                             Intent intent = new Intent(GateApplication.getGlobalContext(), GatePlaybackActivity.class);
@@ -102,22 +111,10 @@ public class AnimeSeasonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             GateApplication.getGlobalContext().startActivity(intent);
                         }
                     };
-
                     showResolutionChooseDialog(titles, listener, v.getContext());
-
                     if (progressDialog != null && progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
-                }
-
-                @Override
-                public void onFailure(Call<PlaybackInfo[]> call, Throwable t) {
-                    t.printStackTrace();
-                    if (progressDialog != null && progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                    Toast.makeText(GateApplication.getGlobalContext(), GateApplication
-                            .getGlobalContext().getString(R.string.loading_res_list_failed), Toast.LENGTH_SHORT).show();
                 }
             });
 

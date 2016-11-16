@@ -69,4 +69,5 @@
     <string name="check_for_new_episodes">检查动漫集数更新</string>
     <string name="check_for_updates">检查应用版本更新</string>
     <string name="debug">调试</string>
+    <string name="broken_link">无法播放这一集</string>
 </resources>

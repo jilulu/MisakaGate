@@ -69,4 +69,5 @@
     <string name="check_for_new_episodes">檢查動漫集數更新</string>
     <string name="check_for_updates">檢查應用版本更新</string>
     <string name="debug">調試</string>
+    <string name="broken_link">無法播放這一集</string>
 </resources>

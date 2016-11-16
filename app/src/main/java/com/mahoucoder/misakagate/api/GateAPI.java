@@ -1,7 +1,5 @@
 package com.mahoucoder.misakagate.api;
 
-import android.util.Log;
-
 import com.mahoucoder.misakagate.BuildConfig;
 import com.mahoucoder.misakagate.api.models.AnimeListCache;
 import com.mahoucoder.misakagate.api.models.AnimeSeason;
@@ -15,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -88,16 +87,28 @@ public class GateAPI {
         listCall.enqueue(callback);
     }
 
-    public static void getPlaybackInfo(String url, Callback<PlaybackInfo[]> callback) throws IllegalArgumentException {
-        Pattern pattern = Pattern.compile("http://embed.2d-gate.org/json-feed/([^/]+)/\\?hash=(.+)");
-        Matcher matcher = pattern.matcher(url);
-        if (!matcher.matches()) {
-            Log.e("GateAPI.getPlaybackInfo", "Pattern match failed for " + url);
-        }
-        Retrofit retrofit = getVideoInfoRetrofit();
-        PlaybackInfoService service = retrofit.create(PlaybackInfoService.class);
-        Call<PlaybackInfo[]> infoCall = service.getPlayBackInfo(matcher.group(1), matcher.group(2));
-        infoCall.enqueue(callback);
+    public static void getPlaybackInfo(final String url, Observer<List<PlaybackInfo>> observer) {
+        Observable.create(new Observable.OnSubscribe<List<PlaybackInfo>>() {
+            @Override
+            public void call(Subscriber<? super List<PlaybackInfo>> subscriber) {
+                Pattern pattern = Pattern.compile("http://embed.2d-gate.org/json-feed/([^/]+)/\\?hash=(.+)");
+                Matcher matcher = pattern.matcher(url);
+                if (!matcher.matches()) {
+                    subscriber.onError(new IllegalArgumentException(String.format("Pattern match failed for %s", url)));
+                    return;
+                }
+                Retrofit retrofit = getVideoInfoRetrofit();
+                PlaybackInfoService service = retrofit.create(PlaybackInfoService.class);
+                Call<PlaybackInfo[]> infoCall = service.getPlayBackInfo(matcher.group(1), matcher.group(2));
+                try {
+                    PlaybackInfo[] body = infoCall.execute().body();
+                    List<PlaybackInfo> playbackInfoList = Arrays.asList(body);
+                    subscriber.onNext(playbackInfoList);
+                } catch (IOException e) {
+                    subscriber.onError(e);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
     }
 
     public static void getNewestVersion(Observer<String> observer) {

@@ -69,4 +69,5 @@
     <string name="anime_update_text">" has been updated just now. Click to check it out! "</string>
     <string name="debug">DEBUG</string>
     <string name="check_for_new_episodes">Check for new episodes</string>
+    <string name="broken_link">Unable to play this episode. </string>
 </resources>

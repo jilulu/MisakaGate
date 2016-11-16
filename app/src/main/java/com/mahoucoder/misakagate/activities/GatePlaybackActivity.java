@@ -56,7 +56,6 @@ import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.utils.EventLogger;
 import com.mahoucoder.misakagate.utils.TrackSelectionHelper;
-import com.umeng.analytics.MobclickAgent;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -155,7 +154,6 @@ public class GatePlaybackActivity extends Activity implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
         if ((Util.SDK_INT <= 23 || player == null)) {
             initializePlayer();
         }
@@ -164,7 +162,6 @@ public class GatePlaybackActivity extends Activity implements View.OnClickListen
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
         if (Util.SDK_INT <= 23) {
             releasePlayer();
         }

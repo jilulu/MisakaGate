@@ -21,6 +21,11 @@
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.AnimeDetailActivity"
@@ -50,23 +55,6 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="@string/umeng_app_key" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="@string/umeng_channel" />
-
-        <activity
-            android:name=".activities.EntranceActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <service android:name=".SubscriptionService"/>
         <receiver android:name=".CheckSubscriptionReceiver">
             <intent-filter>

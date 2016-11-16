@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.mahoucoder.misakagate"
         minSdkVersion 16
@@ -39,28 +39,6 @@ android {
                     (System.getenv('encrypted_046cd0986819_key') != null && System.getenv('encrypted_046cd0986819_iv') != null)) {
                 signingConfig signingConfigs.release
             }
-            File signingPropFile = rootProject.file('signing.properties')
-            if (signingPropFile.exists()) {
-                Properties signingProp = new Properties()
-                signingProp.load(signingPropFile.newDataInputStream())
-                resValue "string", "umeng_app_key", signingProp.get("umeng_api_key")
-            } else if (System.getenv("umeng_api_key") != null) {
-                resValue "string", "umeng_app_key", System.getenv("umeng_api_key")
-            }
-        }
-        debug {
-            String umengApiKey = null
-            File signingPropFile = rootProject.file('signing.properties')
-            if (signingPropFile.exists()) {
-                Properties signingProp = new Properties()
-                signingProp.load(signingPropFile.newDataInputStream())
-                umengApiKey = signingProp.get("umeng_api_key")
-            }
-            if (umengApiKey == null) {
-                umengApiKey = "0"
-            }
-            System.out.println("Gradle set umeng_app_key = " + umengApiKey)
-            resValue "string", "umeng_app_key", umengApiKey
         }
     }
 }
@@ -96,8 +74,8 @@ dependencies {
     // Google exo player
     compile 'com.google.android.exoplayer:exoplayer:r2.0.4'
 
-    // Umeng stats
-    compile 'com.umeng.analytics:analytics:latest.integration'
+    // Firebase Crash Report
+    compile 'com.google.firebase:firebase-crash:9.2.1'
 
     // DBFlow
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
@@ -109,3 +87,5 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

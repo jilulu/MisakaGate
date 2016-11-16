@@ -13,7 +13,7 @@ jdk:
 script:
   - ./gradlew assembleRelease
 
-before_script: "openssl aes-256-cbc -K $encrypted_046cd0986819_key -iv $encrypted_046cd0986819_iv -in .gate.jks.enc -out gate.jks -d"
+before_script: "openssl aes-256-cbc -K $encrypted_046cd0986819_key -iv $encrypted_046cd0986819_iv -in .gate.jks.enc -out gate.jks -d; openssl aes-256-cbc -K $encrypted_53cae4da9b94_key -iv $encrypted_53cae4da9b94_iv -in app/.google-services.json.enc -out app/google-services.json -d"
 
 deploy:
   provider: releases

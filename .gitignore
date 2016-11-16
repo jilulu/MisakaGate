@@ -8,3 +8,5 @@
 .idea/
 signing.properties
 gradle.properties
+app/google-services.json
+

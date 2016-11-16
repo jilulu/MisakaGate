@@ -58,10 +58,15 @@
     <string name="cancel">取消</string>
     <string name="checking_for_updates">正在檢查更新</string>
     <string name="download">下載</string>
-    <string name="new_version_another_message">"，目前版本是 \</string>
+    <string name="new_version_another_message">"，目前版本是 "</string>
     <string name="new_version_found">發現新版本</string>
     <string name="new_version_message">"發現了新版本： "</string>
     <string name="new_version_yet_another_message">。要下載嗎？</string>
     <string name="please_wait">請稍等……</string>
     <string name="latest_build">已是最新版本</string>
+    <string name="is_updated">已更新</string>
+    <string name="anime_update_text">已被更新！點按此通知來查看。</string>
+    <string name="check_for_new_episodes">檢查動漫集數更新</string>
+    <string name="check_for_updates">檢查應用版本更新</string>
+    <string name="debug">調試</string>
 </resources>

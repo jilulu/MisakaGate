@@ -2,7 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/general">
-        <Preference android:title="Check for updates"
+        <Preference android:title="@string/check_for_updates"
             android:key="updates"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/debug">
+        <Preference
+            android:title="@string/check_for_new_episodes"
+            android:key="new_episodes"/>
     </PreferenceCategory>
 </PreferenceScreen>

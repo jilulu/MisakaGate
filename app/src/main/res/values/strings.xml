@@ -62,6 +62,11 @@
     <string name="download">Download</string>
     <string name="cancel">Cancel</string>
     <string name="checking_for_updates">Checking for updates</string>
+    <string name="check_for_updates">Check for updates</string>
     <string name="please_wait">"Please wait… "</string>
     <string name="latest_build">"This is already the latest build. "</string>
+    <string name="is_updated">" is updated"</string>
+    <string name="anime_update_text">" has been updated just now. Click to check it out! "</string>
+    <string name="debug">DEBUG</string>
+    <string name="check_for_new_episodes">Check for new episodes</string>
 </resources>

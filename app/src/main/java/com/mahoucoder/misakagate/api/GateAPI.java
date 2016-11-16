@@ -53,18 +53,21 @@ public class GateAPI {
         return mClient;
     }
 
+    public static List<AnimeSeason> getAnimeSeasonsSync(String tid) throws IOException {
+        String url = String.format(EPISODE_LIST_POST_URL, tid);
+        Request request = new Request.Builder().url(url).build();
+        Response response = getOKHTTP().newCall(request).execute();
+        Document dom = Jsoup.parse(response.body().byteStream(), "utf-8", url);
+        Element interestingNode = dom.select("div[style=\"display:none\"]").get(0);
+        return GateParser.parseNodeIntoAnimeSeasonList(interestingNode);
+    }
+
     public static void getAnimeSeasons(final String tid, final Observer<List<AnimeSeason>> observer) {
         Observable<List<AnimeSeason>> listObservable = Observable.create(new Observable.OnSubscribe<List<AnimeSeason>>() {
             @Override
             public void call(Subscriber<? super List<AnimeSeason>> subscriber) {
-                String url = String.format(EPISODE_LIST_POST_URL, tid);
-                Request request = new Request.Builder().url(url).build();
                 try {
-                    Response response = getOKHTTP().newCall(request).execute();
-                    Document dom = Jsoup.parse(response.body().byteStream(), "utf-8", url);
-                    Element interestingNode = dom.select("div[style=\"display:none\"]").get(0);
-                    List<AnimeSeason> animeSeasons = GateParser.parseNodeIntoAnimeSeasonList(interestingNode);
-                    subscriber.onNext(animeSeasons);
+                    subscriber.onNext(getAnimeSeasonsSync(tid));
                 } catch (IOException e) {
                     subscriber.onError(e);
                 }

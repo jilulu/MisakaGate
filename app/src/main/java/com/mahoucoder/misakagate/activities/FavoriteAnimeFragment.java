@@ -1,5 +1,6 @@
 package com.mahoucoder.misakagate.activities;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,9 @@ import android.view.ViewGroup;
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
 import com.mahoucoder.misakagate.adapters.FavoriteAnimeAdapter;
+import com.mahoucoder.misakagate.api.models.Favorite;
 import com.mahoucoder.misakagate.utils.GateUtils;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 /**
  * Created by jamesji on 13/11/2016.
@@ -46,5 +49,22 @@ public class FavoriteAnimeFragment extends Fragment {
         noFavHint = (ViewGroup) rootView.findViewById(R.id.fragment_favorite_hint);
         noFavHint.setVisibility(View.GONE);
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            long count = SQLite.selectCountOf().from(Favorite.class).count();
+            if (count == 0L) {
+                noFavHint.setVisibility(View.VISIBLE);
+                favAnimeRecycler.setVisibility(View.INVISIBLE);
+            } else {
+                noFavHint.setVisibility(View.INVISIBLE);
+                favAnimeRecycler.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+            // ignored
+        }
     }
 }

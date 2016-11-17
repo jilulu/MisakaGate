@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.mahoucoder.misakagate.BuildConfig;
 import com.mahoucoder.misakagate.GateApplication;
 import com.mahoucoder.misakagate.R;
-import com.mahoucoder.misakagate.SubscriptionService;
 import com.mahoucoder.misakagate.api.GateAPI;
 
 import rx.Observer;
@@ -81,16 +80,6 @@ public class PrefsFragment extends PreferenceFragment {
                                 .show();
                     }
                 });
-                return true;
-            }
-        });
-
-        Preference newEpisodes = findPreference("new_episodes");
-        newEpisodes.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(GateApplication.getGlobalContext(), SubscriptionService.class);
-                GateApplication.getGlobalContext().startService(intent);
                 return true;
             }
         });
